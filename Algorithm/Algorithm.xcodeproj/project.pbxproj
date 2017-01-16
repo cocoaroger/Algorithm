@@ -7,14 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DB4631C01E2CB12100D37159 /* SinglyLinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB4631BF1E2CB12100D37159 /* SinglyLinkedList.swift */; };
 		DB6C6F6C1E2C67540003E9B6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6C6F6B1E2C67540003E9B6 /* AppDelegate.swift */; };
 		DB6C6F6E1E2C67540003E9B6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6C6F6D1E2C67540003E9B6 /* ViewController.swift */; };
 		DB6C6F711E2C67540003E9B6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB6C6F6F1E2C67540003E9B6 /* Main.storyboard */; };
 		DB6C6F731E2C67540003E9B6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB6C6F721E2C67540003E9B6 /* Assets.xcassets */; };
 		DB6C6F761E2C67540003E9B6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB6C6F741E2C67540003E9B6 /* LaunchScreen.storyboard */; };
+		DB6C6F8A1E2CA16F0003E9B6 /* SequenceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6C6F891E2CA16F0003E9B6 /* SequenceList.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DB4631BF1E2CB12100D37159 /* SinglyLinkedList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SinglyLinkedList.swift; sourceTree = "<group>"; };
 		DB6C6F681E2C67540003E9B6 /* Algorithm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Algorithm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB6C6F6B1E2C67540003E9B6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DB6C6F6D1E2C67540003E9B6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -22,6 +25,7 @@
 		DB6C6F721E2C67540003E9B6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DB6C6F751E2C67540003E9B6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DB6C6F771E2C67540003E9B6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DB6C6F891E2CA16F0003E9B6 /* SequenceList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SequenceList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,14 +58,24 @@
 		DB6C6F6A1E2C67540003E9B6 /* Algorithm */ = {
 			isa = PBXGroup;
 			children = (
+				DB6C6F7D1E2C7C8C0003E9B6 /* LinearList */,
 				DB6C6F6B1E2C67540003E9B6 /* AppDelegate.swift */,
-				DB6C6F6D1E2C67540003E9B6 /* ViewController.swift */,
-				DB6C6F6F1E2C67540003E9B6 /* Main.storyboard */,
 				DB6C6F721E2C67540003E9B6 /* Assets.xcassets */,
-				DB6C6F741E2C67540003E9B6 /* LaunchScreen.storyboard */,
 				DB6C6F771E2C67540003E9B6 /* Info.plist */,
+				DB6C6F741E2C67540003E9B6 /* LaunchScreen.storyboard */,
+				DB6C6F6F1E2C67540003E9B6 /* Main.storyboard */,
+				DB6C6F6D1E2C67540003E9B6 /* ViewController.swift */,
 			);
 			path = Algorithm;
+			sourceTree = "<group>";
+		};
+		DB6C6F7D1E2C7C8C0003E9B6 /* LinearList */ = {
+			isa = PBXGroup;
+			children = (
+				DB6C6F891E2CA16F0003E9B6 /* SequenceList.swift */,
+				DB4631BF1E2CB12100D37159 /* SinglyLinkedList.swift */,
+			);
+			path = LinearList;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -139,6 +153,8 @@
 			files = (
 				DB6C6F6E1E2C67540003E9B6 /* ViewController.swift in Sources */,
 				DB6C6F6C1E2C67540003E9B6 /* AppDelegate.swift in Sources */,
+				DB4631C01E2CB12100D37159 /* SinglyLinkedList.swift in Sources */,
+				DB6C6F8A1E2CA16F0003E9B6 /* SequenceList.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,6 +167,7 @@
 				DB6C6F701E2C67540003E9B6 /* Base */,
 			);
 			name = Main.storyboard;
+			path = .;
 			sourceTree = "<group>";
 		};
 		DB6C6F741E2C67540003E9B6 /* LaunchScreen.storyboard */ = {
@@ -159,6 +176,7 @@
 				DB6C6F751E2C67540003E9B6 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			path = .;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -263,6 +281,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = T8G9PLFU8G;
 				INFOPLIST_FILE = Algorithm/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cocoaroger.Algorithm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -279,6 +298,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Algorithm/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cocoaroger.Algorithm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -306,6 +326,7 @@
 				DB6C6F7C1E2C67540003E9B6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
