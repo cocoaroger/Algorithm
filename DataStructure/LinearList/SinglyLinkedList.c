@@ -13,15 +13,13 @@ typedef struct Node
 	struct Node *next;
 } Node, *SinglyLinkedList;
 
+
+
 // 初始化
 SinglyLinkedList init(ElementType data)
 {
 	Node *head;
 	head = (Node *)malloc(LIST_INIT_SIZE);
-	if (head == NULL)
-	{
-		printf("申请空间失败");
-	}
 	head->data = data;
 	head->next = NULL;
 	return head;
@@ -41,7 +39,7 @@ Node* getElement(SinglyLinkedList list, int index)
 		return NULL;
 	}
 
-	int j = 1;
+	int j = 1; // 顺序遍历
 	while (searchResult && j < index)
 	{
 		searchResult = searchResult->next;
@@ -64,25 +62,26 @@ void insert(SinglyLinkedList list, int index, ElementType element)
 }
 
 // 删除
-void delete(SinglyLinkedList list, int index, ElementType *deletedElement)
+void deleteAt(SinglyLinkedList list, int index, ElementType *deletedElement)
 {
-	Node *node = getElement(list, index);
+	Node *deletedNode = getElement(list, index);
 
 	Node *preNode = getElement(list, index-1);
 
-	preNode->next = node->next;
-	*deletedElement = node->data;
-	node = NULL;
+	preNode->next = deletedNode->next;
+	*deletedElement = deletedNode->data;
+	free(deletedNode);
 }
 
 void printList(SinglyLinkedList list) 
 {
 	Node *next = list;
-	while(next) {
-		printf("%d ", next->data);
+
+	do
+	{
+		printf("%d\n", next->data);
 		next = next->next;
-	}
-	printf("\n");
+	} while (next != NULL);
 }
 
 int main(int argc, char const *argv[])
@@ -94,7 +93,7 @@ int main(int argc, char const *argv[])
 	printList(list);
 
 	ElementType deletedElement;
-	delete(list, 1, &deletedElement);
+	deleteAt(list, 1, &deletedElement);
 	printList(list);
 	printf("删除的元素：%d\n", deletedElement);
 
