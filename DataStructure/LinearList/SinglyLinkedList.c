@@ -87,14 +87,14 @@ void printList(SinglyLinkedList list)
 SinglyLinkedList reverseList(SinglyLinkedList list)
 {
 	SinglyLinkedList prev = NULL;
-	while (list->next)
+	while (list != NULL)
 	{
 		Node *temp = list->next;
 		list->next = prev;
 		prev = list;
 		list = temp;
 	}
-	return list;
+	return prev;
 }
 
 int main(int argc, char const *argv[])
@@ -110,5 +110,11 @@ int main(int argc, char const *argv[])
 	printList(list);
 	printf("删除的元素：%d\n", deletedElement);
 
+	printf("%s\n", "反序前链表：");
+	printList(list);
+
+	SinglyLinkedList reversedList = reverseList(list);
+	printf("%s\n", "反序后链表：");
+	printList(reversedList);
 	return 0;
 }
