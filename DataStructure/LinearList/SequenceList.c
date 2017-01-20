@@ -11,7 +11,7 @@ typedef int ElementType;
 typedef int Status;
 
 // 根据状态打印文字
-void print(Status status, char message[])
+void printList(Status status, char message[])
 {
 	if (status == SUCCESS)
 	{
@@ -108,7 +108,7 @@ Status insert(SequenceListPt list, int index, ElementType element)
 	- index 删除的位置
 	- element 返回删除的元素
 */
-Status delete(SequenceListPt list, int index, ElementType *element)
+Status deleteElement(SequenceListPt list, int index, ElementType *element)
 {
 	if (checkIndex(list, index) == ERROR)
 	{
@@ -124,23 +124,22 @@ Status delete(SequenceListPt list, int index, ElementType *element)
 	return SUCCESS;
 }
 
-
 int main(int argc, char const *argv[])
 {
 	SequenceList list;
 	// 初始化
-	print(init(&list), "初始化");
+	printList(init(&list), "初始化");
 	
 	// 插入
 	printf("初始化顺序表 size:%d, length:%d\n", list.size, list.length);
 	for (int i = 0; i < 11; ++i)
 	{
-		print(insert(&list, i, i), "插入");	
+		printList(insert(&list, i, i), "插入");	
 	}
 	printf("插入后顺序表 size:%d, length:%d\n", list.size, list.length);
 
 	ElementType deletedElement;
-	print(delete(&list, 8, &deletedElement), "删除");
+	printList(deleteElement(&list, 8, &deletedElement), "删除");
 	printf("删除的元素：%d\n", deletedElement);	
 	printf("删除后顺序表 size:%d, length:%d\n", list.size, list.length);
 

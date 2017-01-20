@@ -84,6 +84,19 @@ void printList(SinglyLinkedList list)
 	} while (next != NULL);
 }
 
+SinglyLinkedList reverseList(SinglyLinkedList list)
+{
+	SinglyLinkedList prev = NULL;
+	while (list->next)
+	{
+		Node *temp = list->next;
+		list->next = prev;
+		prev = list;
+		list = temp;
+	}
+	return list;
+}
+
 int main(int argc, char const *argv[])
 {
 	SinglyLinkedList list = init(100);
