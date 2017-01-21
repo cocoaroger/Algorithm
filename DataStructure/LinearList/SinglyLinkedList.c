@@ -73,10 +73,35 @@ void deleteAt(SinglyLinkedList list, int index, ElementType *deletedElement)
 	free(deletedNode);
 }
 
+// 以O(1)时间复杂度删除节点
+void deleteO1At(SinglyLinkedList list, Node *deletedNode)
+{
+	if (list == NULL || deletedNode == NULL)
+	{
+		return;
+	}
+
+	if (deletedNode->next != NULL) // 不是尾节点
+	{
+		deletedNode->data = deletedNode->next->data;
+		deletedNode->next = deletedNode->next->next;
+		free(deletedNode);	
+	} else if (list == deletedNode) { // 只有一个节点
+		free(list);
+		free(deletedNode);
+	} else { // 是尾节点
+		Node *node = list;
+		while (node->next != deletedNode) {
+			node = node->next;
+		}
+		node->next = NULL;
+	}
+}
+
+
 void printList(SinglyLinkedList list) 
 {
 	Node *next = list;
-
 	do
 	{
 		printf("%d\n", next->data);
@@ -84,6 +109,7 @@ void printList(SinglyLinkedList list)
 	} while (next != NULL);
 }
 
+// 翻转链表
 SinglyLinkedList reverseList(SinglyLinkedList list)
 {
 	SinglyLinkedList prev = NULL;
@@ -116,5 +142,13 @@ int main(int argc, char const *argv[])
 	SinglyLinkedList reversedList = reverseList(list);
 	printf("%s\n", "反序后链表：");
 	printList(reversedList);
+	
+	Node *willDeleteNode = getElement(reversedList, 1);
+	printf("要删除的元素：%d\n", willDeleteNode->data);
+
+	deleteO1At(reversedList, willDeleteNode);
+	printf("删除后列表\n");
+	printList(reversedList);
+
 	return 0;
 }
