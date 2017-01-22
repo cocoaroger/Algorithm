@@ -11,14 +11,17 @@ typedef struct Node
 	struct Node *prior, *next;
 } Node, *DoubleLinkedList;
 
+// 顺序打印链表
 void printList(DoubleLinkedList list)
 {
-	DoubleLinkedList next = list->next;
-	do
+	Node *node = list->next;
+	printf("%s\n", "打印双向链表：");
+	while (node != list)
 	{
-		printf("%d\n", next->data);
-		next = next->next;
-	} while (next != list);
+		printf("%d\t", node->data);
+		node = node->next;
+	};
+	printf("\n");
 }
 
 // 初始化，双链表可以很方便地找到其前驱结点，因此，插入、删除结点算法的时间复杂度仅为O(1)。
@@ -29,6 +32,7 @@ DoubleLinkedList init()
 	return list;
 }
 
+// 获取节点
 Node* getNode(DoubleLinkedList list, int index)
 {
 	if (index == 0)
@@ -49,6 +53,7 @@ Node* getNode(DoubleLinkedList list, int index)
 	return searchResult;
 }
 
+// 插入节点
 void insert(DoubleLinkedList list, int index, ElementType data) 
 {
 	DoubleLinkedList preNode = getNode(list, index-1);
@@ -62,6 +67,7 @@ void insert(DoubleLinkedList list, int index, ElementType data)
 	preNode->next = newNode;
 }
 
+// 删除节点
 void deleteAt(DoubleLinkedList list, int index, ElementType *deletedElement)
 {
 	DoubleLinkedList deletedNode = getNode(list, index);

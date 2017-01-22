@@ -14,33 +14,42 @@ typedef struct Node
 } Node, *SinglyLinkedList;
 
 
-
 // 初始化
 SinglyLinkedList init(ElementType data)
 {
-	Node *head;
-	head = (Node *)malloc(LIST_INIT_SIZE);
-	head->data = data;
-	head->next = NULL;
-	return head;
+	SinglyLinkedList list;
+	list = (SinglyLinkedList)malloc(LIST_INIT_SIZE);
+	list->data = data;
+	list->next = NULL;
+	return list;
+}
+
+void printList(SinglyLinkedList list) 
+{
+	Node *node = list;
+	printf("%s\n", "打印单链表：");
+	while (node != NULL) {
+		printf("%d\t", node->data);
+		node = node->next;
+	}
+	printf("\n");
 }
 
 // 查询
-Node* getElement(SinglyLinkedList list, int index)
+Node * getElement(SinglyLinkedList list, int index)
 {
-	Node *searchResult = list->next;
-
+	if (index < 0)
+	{
+		return NULL;
+	}
 	if (index == 0)
 	{
 		return list;
 	}
-	if (index < 1)
-	{
-		return NULL;
-	}
 
+	Node *searchResult = list->next;
 	int j = 1; // 顺序遍历
-	while (searchResult && j < index)
+	while (searchResult != NULL && j < index)
 	{
 		searchResult = searchResult->next;
 		j++;
@@ -61,7 +70,7 @@ void insert(SinglyLinkedList list, int index, ElementType element)
 	preNode->next = newNode;
 }
 
-// 删除
+// 一般的删除
 void deleteAt(SinglyLinkedList list, int index, ElementType *deletedElement)
 {
 	Node *deletedNode = getElement(list, index);
@@ -83,30 +92,22 @@ void deleteO1At(SinglyLinkedList list, Node *deletedNode)
 
 	if (deletedNode->next != NULL) // 不是尾节点
 	{
+		Node *temp = deletedNode->next; // 缓存，最后删除
+
 		deletedNode->data = deletedNode->next->data;
 		deletedNode->next = deletedNode->next->next;
-		free(deletedNode);	
+		free(temp);
 	} else if (list == deletedNode) { // 只有一个节点
 		free(list);
 		free(deletedNode);
 	} else { // 是尾节点
-		Node *node = list;
-		while (node->next != deletedNode) {
-			node = node->next;
+		Node *preNode = list;
+		while (preNode->next != deletedNode) {
+			preNode = preNode->next;
 		}
-		node->next = NULL;
+		preNode->next = NULL;
+		free(deletedNode);
 	}
-}
-
-
-void printList(SinglyLinkedList list) 
-{
-	Node *next = list;
-	do
-	{
-		printf("%d\n", next->data);
-		next = next->next;
-	} while (next != NULL);
 }
 
 // 翻转链表
@@ -128,7 +129,7 @@ int main(int argc, char const *argv[])
 	SinglyLinkedList list = init(100);
 	insert(list, 1, 20);
 	insert(list, 2, 30);
-	insert(list, 2, 1000);
+	insert(list, 3, 1000);
 	printList(list);
 
 	ElementType deletedElement;

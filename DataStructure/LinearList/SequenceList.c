@@ -1,76 +1,48 @@
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
+
 
 #define LIST_INIT_SIZE 10
 #define LIST_INCREMENT 2
-#define SUCCESS 1
-#define ERROR 0
 
 typedef int ElementType;
-typedef int Status;
-
-// 根据状态打印文字
-void printList(Status status, char message[])
-{
-	if (status == SUCCESS)
-	{
-		printf("%s成功\n", message);
-	} else {
-		printf("%s失败\n", message);
-	}
-}
 
 // 顺序表
 typedef struct SequenceList
 {
-	ElementType *element; // 数据元素基址
-	int size; // 元素个数
-	int length; // 表长
-} SequenceList, *SequenceListPt;
+	ElementType *data; // 指示动态分配数组的指针
+	int size; // 当前元素个数
+	int capacity; // 动态增长的表长
+} SequenceList;
 
-Status init(SequenceListPt list) 
+// 打印顺序链表
+void printList(SequenceList *list)
 {
-	list->element = (ElementType *)malloc(LIST_INIT_SIZE*sizeof(ElementType));
-	if (!list->element)
+	if (list->size == 0)
 	{
-		return ERROR;
+		printf("%s\n", "当前顺序表为空!");
+		return;
 	}
-	list->length = LIST_INIT_SIZE;
+	printf("%s\n", "遍历顺序表：");
+	printf("顺序表 size:%d, capacity:%d \n", list->size, list->capacity);
+
+	for (int i = 0; i < list->size; ++i)
+	{
+		printf("%d \t", list->data[i]);
+	}
+	printf("\n");
+}
+
+// 初始化
+SequenceList * init() 
+{
+	SequenceList *list = (SequenceList *)malloc(sizeof(SequenceList));
+
+	list->data = (ElementType *)malloc(LIST_INIT_SIZE * sizeof(ElementType));
+	list->capacity = LIST_INIT_SIZE;
 	list->size = 0;
-	return SUCCESS;
-}
-
-Status clear(SequenceListPt list) 
-{
-	if (!list->element)
-	{
-		return ERROR;
-	}
-	list->length = 0;
-	return SUCCESS;
-}
-
-Status destory(SequenceListPt list)
-{
-	if (list->element)
-	{
-		free(list->element);
-		list = NULL;
-		return SUCCESS;
-	}
-	return ERROR;
-}
-
-Status checkIndex(SequenceListPt list, int index) 
-{
-	if (index >= 0 && index <= list->length)
-	{
-		return SUCCESS;
-	} else {
-		printf("%s\n", "下标不合法，插入失败");
-		return ERROR;
-	}
+	return list;
 }
 
 /*
@@ -78,29 +50,24 @@ Status checkIndex(SequenceListPt list, int index)
 	- index 插入的位置
 	- element 插入的元素
 */
-Status insert(SequenceListPt list, int index, ElementType element)
+void insert(SequenceList *list, int index, ElementType element)
 {
-	if (checkIndex(list, index) == ERROR)
+	ElementType *newData;
+	if (list->capacity == list->size) // 扩容
 	{
-		return ERROR;
-	}
-	ElementType *base;
-	if (list->length == list->size) // 扩容
-	{
-		base = (ElementType *)realloc(list->element, (list->size + LIST_INCREMENT)*sizeof(ElementType));
-		list->element = base;
-		list->length += LIST_INCREMENT;
+		newData = (ElementType *)realloc(list->data, (list->size + LIST_INCREMENT) * sizeof(ElementType));
+		list->data = newData;
+		list->capacity += LIST_INCREMENT;
 	}
 
-	int i = list->length;
+	int i = list->capacity;
 	while ( i > index)
 	{
-		list->element[i] = list->element[i-1];
+		list->data[i] = list->data[i-1];
 		i -= 1;
 	}
-	list->element[index] = element;
+	list->data[index] = element;
 	list->size += 1;
-	return SUCCESS;
 }
 
 /*
@@ -108,40 +75,38 @@ Status insert(SequenceListPt list, int index, ElementType element)
 	- index 删除的位置
 	- element 返回删除的元素
 */
-Status deleteElement(SequenceListPt list, int index, ElementType *element)
+void deleteElement(SequenceList *list, int index, ElementType *deletedElement)
 {
-	if (checkIndex(list, index) == ERROR)
+	*deletedElement = list->data[index];
+
+	for (int i = index; i < list->capacity-1; ++i)
 	{
-		return ERROR;
+		list->data[i] = list->data[i+1];
 	}
-	*element = list->element[index];
-	for (int i = index; i < list->length-1; ++i)
-	{
-		list->element[i] = list->element[i+1];
-	}
-	list->length -= 1;
+	list->capacity -= 1;
 	list->size -= 1;
-	return SUCCESS;
 }
 
 int main(int argc, char const *argv[])
 {
-	SequenceList list;
+	SequenceList *list = init();
 	// 初始化
-	printList(init(&list), "初始化");
-	
+	printList(list);
+
 	// 插入
-	printf("初始化顺序表 size:%d, length:%d\n", list.size, list.length);
 	for (int i = 0; i < 11; ++i)
 	{
-		printList(insert(&list, i, i), "插入");	
+		insert(list, i, i);
 	}
-	printf("插入后顺序表 size:%d, length:%d\n", list.size, list.length);
+	printf("插入后顺序表\n");
+	printList(list);
+	
 
 	ElementType deletedElement;
-	printList(deleteElement(&list, 8, &deletedElement), "删除");
+	deleteElement(list, 8, &deletedElement);
 	printf("删除的元素：%d\n", deletedElement);	
-	printf("删除后顺序表 size:%d, length:%d\n", list.size, list.length);
+	printf("删除后顺序表\n");
+	printList(list);
 
 	return 0;
 }
