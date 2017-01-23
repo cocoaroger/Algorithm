@@ -13,17 +13,7 @@ typedef struct Node
 	struct Node *next;
 } Node, *SinglyLinkedList;
 
-
-// 初始化
-SinglyLinkedList init(ElementType data)
-{
-	SinglyLinkedList list;
-	list = (SinglyLinkedList)malloc(LIST_INIT_SIZE);
-	list->data = data;
-	list->next = NULL;
-	return list;
-}
-
+// 打印链表
 void printList(SinglyLinkedList list) 
 {
 	Node *node = list;
@@ -33,6 +23,16 @@ void printList(SinglyLinkedList list)
 		node = node->next;
 	}
 	printf("\n");
+}
+
+// 初始化
+SinglyLinkedList init(ElementType data)
+{
+	SinglyLinkedList list;
+	list = (SinglyLinkedList)malloc(LIST_INIT_SIZE);
+	list->data = data;
+	list->next = NULL;
+	return list;
 }
 
 // 查询
@@ -123,6 +123,10 @@ SinglyLinkedList reverseList(SinglyLinkedList list)
 	}
 	return prev;
 }
+
+
+
+
 
 int main(int argc, char const *argv[])
 {
