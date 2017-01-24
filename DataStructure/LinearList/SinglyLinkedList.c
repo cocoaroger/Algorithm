@@ -124,10 +124,6 @@ SinglyLinkedList reverseList(SinglyLinkedList list)
 	return prev;
 }
 
-
-
-
-
 int main(int argc, char const *argv[])
 {
 	SinglyLinkedList list = init(100);
