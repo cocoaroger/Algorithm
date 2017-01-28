@@ -34,5 +34,6 @@ typedef struct _taglist
 
 extern list_t* _create_list(const char* s_typename);
 
+extern void _list_init_elem(list_t* plist_list, size_t t_count, ...);
 
 #endif

@@ -4,4 +4,8 @@
 
 #define create_list(...) _create_list(#__VA_ARGS__)
 
+#define list_init_elem(plist_list, t_count, elem) _list_init_elem((plist_list), (t_count), (elem))
+
+
+
 #endif
