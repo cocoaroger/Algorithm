@@ -1,5 +1,6 @@
 #ifndef _CR_LIST_PRIVATE_H_
 #define _CR_LIST_PRIVATE_H_
+
 #include "stdio.h"
 #include "cr_types.h"
 #include "cr_def.h"
@@ -34,6 +35,24 @@ typedef struct _taglist
 
 extern list_t* _create_list(const char* s_typename);
 
+extern bool_t _create_list_auxiliary(list_t* plist_list, const char* s_typename);
+
 extern void _list_init_elem(list_t* plist_list, size_t t_count, ...);
+
+extern void _list_init_elem_varg(list_t* plist_list, size_t t_count, va_list val_elemlist);
+
+extern void _list_destroy_auxiliary(list_t* plist_list);
+
+extern void _list_assign_elem(list_t* plist_list, size_t t_count, ...);
+
+extern void _list_assign_elem_varg(list_t *plist_list, size_t t_count, va_list val_elemlist);
+
+extern void _list_push_back(list_t* plist_list, ...);
+
+extern void _list_push_back_varg(list_t* plist_list, va_list val_elemlist);
+
+extern void _list_push_front(list_t* plist_list, ...);
+
+extern void _list_push_front_varg(list_t* plist_list, va_list val_elemlist);
 
 #endif

@@ -37,4 +37,5 @@ typedef struct _tagtypeinfo
 	_typestyle_t	_t_style;
 }_typeinfo_t;
 
+extern void _type_get_type(_typeinfo_t* pt_typeinfo, const char* _s_typename);
 #endif

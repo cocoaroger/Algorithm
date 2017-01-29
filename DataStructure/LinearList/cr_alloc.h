@@ -1,7 +1,10 @@
 #ifndef _CR_ALLOC_H_
 #define _CR_ALLOC_H_
+
 #include <stdio.h>
 #include "cr_def.h"
+
+#ifdef CR_MEMORY_MANAGEMENT
 
 #define _MEM_ALIGMENT	8 /* boundary for small memory block */
 #define _MEM_SMALL_MEM_SIZE_MAX	128 /* the maxinum size of small memory */
@@ -24,5 +27,16 @@ typedef struct _tagalloc
 	size_t _t_mempoolindex;
 	size_t _t_mempoolcount;
 }_alloc_t;
+
+#else
+
+typedef struct _tagalloc
+{
+	int n_avoid_vc_error_c2016;
+}_alloc_t;
+
+#endif /* CR_MEMORY_MANAGEMENT */
+
+extern void _alloc_init(_alloc_t* pt_allocator);
 
 #endif
