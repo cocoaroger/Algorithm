@@ -1,7 +1,12 @@
+#ifndef _CR_LIST_PRIVATE_H_
+#define _CR_LIST_PRIVATE_H_
+
 #include "cr_def.h"
 #include "cr_types.h"
 #include "cr_alloc.h"
 #include "cr_list.h"
+#include "cr_list_aux.h"
+
 #include <assert.h>
 
 list_t* _create_list(const char* s_typename)
@@ -40,3 +45,22 @@ bool_t _create_list_auxiliary(list_t* plist_list, const char* s_typename)
 	_alloc_init(&plist_list->_t_allocator);
 	return true;
 }
+
+void _list_init_elem(list_t* plist_list, size_t t_count, ...)
+{
+	va_list val_elemlist;
+
+	assert(plist_list != NULL);
+
+}
+
+void _list_init_elem_varg(list_t* plist_list, size_t t_count, va_list val_elemlist)
+{
+	_listnode_t* pt_varg = NULL;
+
+	assert(plist_list != NULL);
+
+
+}
+
+#endif

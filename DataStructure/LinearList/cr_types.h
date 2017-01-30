@@ -38,4 +38,5 @@ typedef struct _tagtypeinfo
 }_typeinfo_t;
 
 extern void _type_get_type(_typeinfo_t* pt_typeinfo, const char* _s_typename);
+
 #endif

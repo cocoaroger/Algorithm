@@ -39,4 +39,17 @@ typedef struct _tagalloc
 
 extern void _alloc_init(_alloc_t* pt_allocator);
 
+extern void _alloc_destroy(_alloc_t* pt_allocator);
+
+extern void* _alloc_allocate(_alloc_t* pt_allocator, size_t t_size, size_t t_count);
+
+extern void _alloca_deallocate(_alloc_t* pt_allocator, void* pv_allocmem, size_t t_size, size_t t_count);
+
+
+#ifndef NDEBUG
+extern bool_t _alloc_is_inited(const _alloc_t* cpt_allocator);
+#endif
+
+extern void (*_alloc_set_malloc_handler(void (*pfun_newhandler)(void)))(void);
+
 #endif
