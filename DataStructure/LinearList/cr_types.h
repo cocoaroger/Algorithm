@@ -1,5 +1,6 @@
 #ifndef _CR_TYPE_H_
 #define _CR_TYPE_H_
+
 #include <stdio.h>
 #include <stddef.h>
 

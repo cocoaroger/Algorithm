@@ -2,7 +2,7 @@
 #define _CR_LIST_PRIVATE_H_
 
 #include <assert.h>
-
+#include <stdarg.h>
 #include "cr_def.h"
 #include "cr_types.h"
 #include "cr_alloc.h"
@@ -109,7 +109,9 @@ void _list_push_back(list_t* plist_list, ...)
 	assert(_list_is_inited(plist_list));
 
 	va_start(val_elemlist, plist_list);
+	
 	_list_push_back_varg(plist_list, val_elemlist);
+	
 	va_end(val_elemlist);
 }
 
@@ -160,12 +162,6 @@ void _list_push_front_varg(list_t* plist_list, va_list val_elemlist)
     plist_list->_pt_node->_pt_next->_pt_prev = pt_node;
     plist_list->_pt_node->_pt_next = pt_node;
 }
-
-
-
-
-
-
 
 
 #endif
