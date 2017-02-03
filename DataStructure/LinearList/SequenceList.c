@@ -2,13 +2,22 @@
 #include <stdlib.h>
 #include <string.h>
 
-
+/**
+ * 初始化链表的内存大小
+ */
 #define LIST_INIT_SIZE 10
+/**
+ * 动态增长的内存大小
+ */
 #define LIST_INCREMENT 2
-
+/**
+ * 节点数据类型
+ */
 typedef int ElementType;
 
-// 顺序表
+/**
+ * 顺序表
+ */
 typedef struct SequenceList
 {
 	ElementType *data; // 指示动态分配数组的指针
@@ -16,7 +25,10 @@ typedef struct SequenceList
 	int capacity; // 动态增长的表长
 } SequenceList;
 
-// 打印顺序链表
+/**
+ * 打印顺序链表
+ * @param list 需要打印的链表
+ */
 void printList(SequenceList *list)
 {
 	if (list->size == 0)
@@ -34,8 +46,11 @@ void printList(SequenceList *list)
 	printf("\n");
 }
 
-// 初始化
-SequenceList * init() 
+/**
+ * 初始化链表
+ * @return 循序表实例对象
+ */
+SequenceList* init() 
 {
 	SequenceList *list = (SequenceList *)malloc(sizeof(SequenceList));
 
@@ -45,11 +60,12 @@ SequenceList * init()
 	return list;
 }
 
-/*
-	插入
-	- index 插入的位置
-	- element 插入的元素
-*/
+/**
+ * 插入
+ * @param list 插入到的链表
+ * @param index 插入的位置
+ * @param element 插入的数据元素
+ */
 void insert(SequenceList *list, int index, ElementType element)
 {
 	ElementType *newData;
@@ -70,11 +86,12 @@ void insert(SequenceList *list, int index, ElementType element)
 	list->size += 1;
 }
 
-/*
-	删除元素
-	- index 删除的位置
-	- element 返回删除的元素
-*/
+/**
+ * 删除元素
+ * @param list 删除的链表
+ * @param index 删除的位置
+ * @param element 返回删除的元素
+ */
 void deleteElement(SequenceList *list, int index, ElementType *deletedElement)
 {
 	*deletedElement = list->data[index];

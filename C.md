@@ -2,8 +2,9 @@
 2. <a href="https://www.gnu.org/software/libc/libc.html">C语言源码下载地址</a>
 3. <a href="http://home.gna.org/gdsl/">GDSL数据结构源码下载地址</a>
 4. <a href="http://libcstl.org/download.html">libcstl数据结构源码下载地址</a>
-5. <a href="http://www.qmailer.net/archives/171.html">C语言编码规范</a>
-6. <a href="https://ilcc.gitbooks.io/wiki/content/StyleGuide/Huawei-C/index.html">华为C语言编码规范</a>
+5. <a href="https://ilcc.gitbooks.io/wiki/content/StyleGuide/Huawei-C/index.html">华为C语言编码规范</a>
+6. <a href="http://www.qmailer.net/archives/171.html">C语言编码规范</a>
+
 
 ### 知识点
 <a href="http://www.cnblogs.com/hanyonglu/archive/2011/05/07/2039916.html">可变参数使用详解，原文地址</a>

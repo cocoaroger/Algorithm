@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
-/*
-*	打印多个数字
-*/
+/**
+ * 打印多个数字
+ * @param first 打印的第一个数
+ */
 void printInt(int first, ...)
 {
 	va_list va_elementlist;
@@ -19,7 +20,7 @@ void printInt(int first, ...)
 	printf("%d %d %d\n", first, second, third); 
 
 	printf("second内存地址：%p\n", &second);
-	printf("third内存地址：%p\n", &second-4);
+	printf("third内存地址：%p\n", &second);
 	return;
 }
 
