@@ -13,3 +13,11 @@
 | 节点信息 | 不需要 | 节点间的逻辑关系 |
 | 应用场景 | 频繁查找，很少插入、删除，大小固定 | 频繁插入、删除，大小不定 |
 
+
+### 链表笔试题
+<a href="http://www.jianshu.com/nb/6562140">数据结构与算法</a>
+
+<a href="http://www.jianshu.com/p/c65d9d753c31">面试宝典（一），链表</a>
+
+<a href="http://www.jianshu.com/p/ac8d278cf469">数据结构与算法（二），线性表</a>
+

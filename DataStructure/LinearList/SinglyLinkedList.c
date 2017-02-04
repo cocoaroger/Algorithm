@@ -182,14 +182,14 @@ SinglyLinkedList reverseList(SinglyLinkedList list)
  * @param secondList 第二个链表
  * @return 公共节点
  */
-Node* findCommonNode(SinglyLinkedList firstList, SinglyLinkedList secondList)
+Node* findCommonNode(SinglyLinkedList head1, SinglyLinkedList head2)
 {
-	Node* p1 = firstList;
-	Node* p2 = secondList;
+	Node* p1 = head1;
+	Node* p2 = head2;
 
 	while(p1 != p2) {
-		p1 = (p1 == NULL ? secondList : p1->next);
-		p2 = (p2 == NULL ? firstList : p2->next);
+		p1 = (p1 == NULL ? head1 : p1->next);
+		p2 = (p2 == NULL ? head2 : p2->next);
 	}
 	return p1;
 }

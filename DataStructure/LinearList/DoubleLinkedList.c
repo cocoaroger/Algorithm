@@ -166,8 +166,6 @@ int getLoopLength(DoubleLinkedList list)
 	return result;
 }
 
-
-
 int main(int argc, char const *argv[])
 {
 	DoubleLinkedList list = init();
@@ -183,8 +181,8 @@ int main(int argc, char const *argv[])
 	printList(list);
 
 	Node *meetNode = getMeetNode(list);
-	printf("%s : %d\n", "相遇的节点", meetNode->data);
-	printf("%d\n", getLoopLength(list));
+	printf("链表相遇的节点 : %d\n", meetNode->data);
+	printf("环的长度： %d\n", getLoopLength(list));
 
 	return 0;
 }
