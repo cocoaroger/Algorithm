@@ -15,7 +15,6 @@
 
 
 ### 链表笔试题
-<a href="http://www.jianshu.com/nb/6562140">数据结构与算法</a>
 
 <a href="http://www.jianshu.com/p/c65d9d753c31">面试宝典（一），链表</a>
 
