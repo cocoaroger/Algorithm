@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+/**
+ * 顺序存储结构栈
+ */
 
 /**
  * 初始容量
@@ -106,7 +109,11 @@ int main(int argc, char const *argv[])
 
 	ElementType popData = pop(stack);
 	printf("弹出的数据：%d\n", popData);
+
+	for (int i = 0; i < 9; ++i)
+	{
+		pop(stack);
+	}
 	printStack(stack);
-	
 	return 0;
 }
