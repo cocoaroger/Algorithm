@@ -10,7 +10,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef int ElementType;
+/**
+ * 获取数组长度
+ * @param  array  数组
+ * @param  length 得到的长度
+ */
+#define GET_ARRAY_LENGTH(array) { length = (sizeof(array) / sizeof(array[0]));}
+
+typedef void* ElementType; // 换成int类型会数据错误，用void*是正确的，目前还没理解到为什么
 typedef struct _SequenceQueue SequenceQueue;
 
 /**
@@ -27,14 +34,29 @@ struct _SequenceQueue
 	int last; // 为元素后一个的索引
 };
 
+void printQueue(SequenceQueue *queue)
+{
+	printf("-----开始打印-----\n");
+	for (int i = 0; i < queue->size; i++)
+	{
+		printf("%d\t", queue->data[(queue->first+i) % queue->capacity]);
+	}
+	printf("\n-----结束打印-----\n");
+}
+
+void printQueueInfo(SequenceQueue *queue)
+{
+	printf("\nsize: %d, capacity: %d, first: %d, last: %d\n", queue->size, queue->capacity, queue->first, queue->last);
+}
+
 SequenceQueue* init()
 {
 	SequenceQueue *queue = (SequenceQueue*)malloc(sizeof(SequenceQueue*));
-
 	queue->data = (ElementType*)malloc(QUEUE_INIT_CAPACITY * sizeof(ElementType*));
 	queue->size = 0;
 	queue->capacity = QUEUE_INIT_CAPACITY;
-
+	queue->first = 0;
+	queue->last = 0;
 	return queue;
 }
 
@@ -45,8 +67,15 @@ SequenceQueue* init()
  */
 void resize(SequenceQueue *queue, int capacity)
 {
-	ElementType *newData = (ElementType *)realloc(queue->data, capacity * sizeof(ElementType*));
+	ElementType *newData = (ElementType*)malloc(capacity * sizeof(ElementType*));
+	for (int i = 0; i < queue->size; i++)
+	{
+		newData[i] = queue->data[(queue->first+i) % queue->capacity];
+	}
+	
 	queue->data = newData;
+	queue->first = 0; // 数组调整后first，last位置
+	queue->last = queue->size;
 	queue->capacity = capacity;
 }
 
@@ -61,8 +90,8 @@ void inQueue(SequenceQueue *queue, ElementType data)
 	{
 		resize(queue, 2 * queue->size); // 若数组已满将长度加倍
 	}
-
-	queue->data[queue->last] = data;
+	
+	queue->data[queue->last] = data;	
 	queue->last = (queue->last + 1) % queue->capacity;
 	queue->size += 1;
 }
@@ -73,7 +102,7 @@ void inQueue(SequenceQueue *queue, ElementType data)
  * @return       出队列的数据
  */
 ElementType outQueue(SequenceQueue *queue)
-{
+{	
 	if (queue->size == 0)
 	{
 		return 0;
@@ -83,9 +112,10 @@ ElementType outQueue(SequenceQueue *queue)
 	queue->first = (queue->first + 1) % queue->capacity;
 	queue->size -= 1;
 	
-	if (queue->size > 0 && queue->size == queue->capacity/4) // 小于数组1/4,将数组减半
+	// 小于数组1/4,将数组减半
+	if (queue->size > 0 && queue->size == queue->capacity/4 && queue->capacity > QUEUE_INIT_CAPACITY)
 	{
-		resize(queue, queue->capacity/2);
+		resize(queue, 2 * queue->size);
 	}
 
 	return outData;
@@ -95,15 +125,30 @@ int main(int argc, char const *argv[])
 {
 	SequenceQueue *queue = init();
 	
-	for (int i = 0; i < 11; ++i)
+	int count = 30;
+	printf("入队列的数据：\n");
+	for (int i = 0; i < count; i++)
 	{
-		inQueue(queue, i + 100);	
+		int inData = i;
+		if (i == 1)
+		{
+			inData = 55;
+		}
+		inQueue(queue, (ElementType)inData);	
+		printf("%d\t", inData);
 	}
-	
-	// for (int i = 0; i < 9; ++i)
-	// {
-	// 	ElementType outData = outQueue(queue);
-	// 	printf("出队列的数据：%d\n", outData);
-	// }
+	printf("\n");
+	printf("---------入队列结束----------\n");
+	printQueue(queue);
+
+	printf("出队列的数据：\n");
+	for (int i = 0; i < count; i++)
+	{
+		ElementType outData = outQueue(queue);
+		printf("%d\t", outData);
+	}
+	printf("\n---------出队列结束----------\n");
+	printQueueInfo(queue);
+
 	return 0;
 }
