@@ -45,9 +45,11 @@ void inQueue(LinkedQueue *queue, ElementType data)
 {
 	Node *newNode = (Node*)malloc(sizeof(Node*));
 	newNode->data = data;
+	newNode->next = NULL;
 	
 	// 在尾节点处加一个
 	Node *oldTail = queue->tail;
+
 	queue->tail = newNode;
 	if (queue->size == 0) {
 		queue->head = newNode;
@@ -60,6 +62,11 @@ void inQueue(LinkedQueue *queue, ElementType data)
 
 ElementType outQueue(LinkedQueue *queue)
 {
+	if (queue->size == 0)
+	{
+		return 0;
+	}
+
 	ElementType outData = queue->head->data;
 	queue->head = queue->head->next;
 
@@ -78,7 +85,7 @@ int main(int argc, char const *argv[])
 	printf("入队列的数据：\n");
 	for (int i = 0; i < count; ++i)
 	{
-		ElementType inData = i;
+		ElementType inData = (i);
 		inQueue(queue, inData);
 		printf("%d\t", inData);
 	}
