@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <string.h>
 
 /**
  * 打印多个数字
@@ -27,5 +28,16 @@ void printInt(int first, ...)
 int main(int argc, char const *argv[])
 {
 	printInt(100, 100, 300);
+
+	char *a = (char*)malloc(100 * sizeof(char));
+	strcpy(a, "hello world");
+	printf("%ld\n", sizeof(a)); // 得到char的长度
+	strcat(a, " .....");
+	printf("%s\n", a);
+	free(a);
+	a = NULL;
+
+	
+	
 	return 0;
 }

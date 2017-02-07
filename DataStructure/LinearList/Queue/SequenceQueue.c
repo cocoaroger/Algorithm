@@ -7,6 +7,10 @@
  * 
  */
 
+/**
+ * 本处采用循环队列，可以让基本操作的时间复杂度为O(1)
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 

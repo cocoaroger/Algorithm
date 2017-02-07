@@ -4,6 +4,8 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <assert.h>
+#include "../../../Common/Memory.c"
 
 typedef int ElementType;
 typedef struct _Node Node;
@@ -38,11 +40,14 @@ void printQueue(LinkedQueue *queue)
 LinkedQueue* init()
 {
 	LinkedQueue *queue = (LinkedQueue*)malloc(sizeof(LinkedQueue));
-	
-	// head,tail必须初始化为NULL，否则会出问题,可能是嘢指针导致
+	assert(queue != NULL);
+
+	// 指针变量没有被初始化。任何指针变量刚被创建时不会自动成为NULL指针，
+	// 它的缺省值是随机的，它会乱指一气。
+	// 所以，指针变量在创建的同时应当被初始化，要么将指针设置为NULL，
+	// 要么让它指向合法的内存。
 	queue->head = NULL;
 	queue->tail = NULL;
-	
 	queue->size = 0;
 	return queue;
 }
@@ -73,8 +78,10 @@ ElementType outQueue(LinkedQueue *queue)
 		return 0;
 	}
 
-	ElementType outData = queue->head->data;
-	queue->head = queue->head->next;
+	Node *oldHead = queue->head;
+	ElementType outData = oldHead->data;
+	queue->head = oldHead->next;
+	free(oldHead);
 
 	queue->size -= 1;
 	if (queue->size == 0)
@@ -86,7 +93,8 @@ ElementType outQueue(LinkedQueue *queue)
 
 int main(int argc, char const *argv[])
 {
-	LinkedQueue *queue = init();
+	LinkedQueue *queue = NULL;
+	queue = init();
 	int count = 10;
 	printf("入队列的数据：\n");
 	for (int i = 0; i < count; i++)
@@ -104,5 +112,9 @@ int main(int argc, char const *argv[])
 		printf("%d\t", outData);
 	}
 	printf("\n-----出队列结束-----\n");
+
+	free(queue);
+	queue = NULL;
+
 	return 0;
 }
