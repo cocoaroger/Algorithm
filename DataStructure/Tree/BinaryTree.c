@@ -81,6 +81,9 @@ void preOrderTraverse(BinaryTree *binaryTree, int index)
 /**
  * 后序遍历：先遍历左子树，然后遍历右子树，最后遍历根结点。
  */
+/**
+ * 层序遍历：从上到下逐层遍历，在同一层中，按从左到右的顺序遍历。
+ */
 
 
 int main(int argc, char const *argv[])
