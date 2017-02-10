@@ -61,13 +61,70 @@ void insertSort2(int array[], int length)
 	}
 }
 
+/**
+ * 二分查找
+ * @param  array  查找的数组
+ * @param  length 数组长度
+ * @param  temp   查找的元素
+ * @param  down   查找的下边界
+ * @param  up     查找的上边界
+ * @return        应该插入的位置
+ */
+int binaryFind(int array[], int length, int temp, int down, int up)
+{
+	if (up < down || up > length || down < 0)
+	{
+		printf("下标越界\n");
+		exit(1);
+	}
+
+	if (temp < array[down]) 
+	{
+		return down;
+	}
+	if (temp > array[up])
+	{
+		return up+1;
+	}
+	
+	int mid = (up-down)/2 + down;
+	int midData = array[mid];
+	if (temp == midData) {
+		return mid + 1;	
+	} else if (temp < midData) {
+		up = mid-1;
+	} else if (temp > midData) {
+		down = mid + 1;
+	}
+	return binaryFind(array, length, temp, down, up);
+}
+/**
+ * 二分插入排序
+ */
+void insertSort3(int array[], int length)
+{
+	for (int i = 1; i < length; i++)
+	{
+		int index = binaryFind(array, length, array[i], 0, i-1);
+		int temp = array[i];
+		// index后的元素向后移动
+		for (int j = i; j > index; j--)
+		{
+			array[j] = array[j-1];
+		}
+		array[index] = temp;
+	}
+}
+
+
 int main(int argc, char const *argv[])
 {
-	int data[5] = {20, 5, 9, 1, 3};
+	int data[10] = {20, 5, 9, 1, 3};
 	// insertSort1(data, 5);
-	insertSort2(data, 5);
-	
-	for (int i = 0; i < 5; ++i)
+	// insertSort2(data, 5);
+	insertSort3(data, 5);
+
+	for (int i = 0; i < 10; ++i)
 	{
 		printf("%d\n", data[i]);
 	}
