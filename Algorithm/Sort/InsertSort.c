@@ -5,11 +5,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int getArrayLength(int *array)
-{
-	return (sizeof(array)/sizeof(array[0]));
-}
-
 /**
  * 值交换
  * @param array 需要交换的数组
@@ -100,6 +95,7 @@ int binaryFind(int array[], int length, int temp, int down, int up)
 }
 /**
  * 二分插入排序
+ * 二分插入排序减少了比较次数，特别是当要排序的数据很大时，这个效果将更加明显。
  */
 void insertSort3(int array[], int length)
 {
@@ -128,7 +124,6 @@ int main(int argc, char const *argv[])
 	{
 		printf("%d\n", data[i]);
 	}
-
 
 	return 0;
 }
