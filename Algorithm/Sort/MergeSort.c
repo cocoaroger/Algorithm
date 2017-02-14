@@ -14,6 +14,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <memory.h>
 
 // 将有二个有序数列a[first...mid]和a[mid...last]合并。  
 void merge(int array[], int first, int mid, int last, int *temp)
@@ -73,7 +74,6 @@ int main(int argc, char const *argv[])
 	{
 		printf("%d\n", temp[i]);
 	}
-
 	return 0;
 }
 
