@@ -74,12 +74,54 @@ void quickSort(int array[], const int length)
 	}
 }
 
+/**
+ * 递归法
+ */
+void quickSortRecursive(int array[], int start, int end)
+{
+	if (start >= end)
+	{
+		return;
+	}
+
+	int mid = array[end];
+	int left = start, right = end - 1;
+	while(left < right) {
+		while(array[left] < mid && left < right) {
+			left++;
+		}
+		while(array[right] >= mid && left < right) {
+			right--;
+		}
+		swap(&array[left], &array[right]);
+	}
+
+	if (array[left] >= array[end])
+	{
+		swap(&array[left], &array[end]);
+	} else {
+		left++;
+	}
+
+	if (left)
+	{
+		quickSortRecursive(array, start, left-1);
+	}
+	quickSortRecursive(array, left+1, end);
+}
+
+void quickSort2(int array[], int length)
+{
+	quickSortRecursive(array, 0, length-1);
+}
+
 
 int main(int argc, char const *argv[])
 {
 	int array[] = {10, 2, 3, 1, 5, 30, 12, 18, 25, 44, 45};
 	int length = sizeof(array)/sizeof(array[0]);
-	quickSort(array, length);
+	// quickSort(array, length);
+	quickSort2(array, length);
 	for (int i = 0; i < length; ++i)
 	{
 		printf("%d\n", array[i]);
