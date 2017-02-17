@@ -118,8 +118,14 @@ void quickSort2(int array[], int length)
 
 int main(int argc, char const *argv[])
 {
-	int array[] = {10, 2, 3, 1, 5, 30, 12, 18, 25, 44, 45};
+	int len = 10000;
+	int array[len];
+	for (int i = 0; i < len; ++i)
+	{
+		array[i] = random()%100;
+	}
 	int length = sizeof(array)/sizeof(array[0]);
+	
 	// quickSort(array, length);
 	quickSort2(array, length);
 	for (int i = 0; i < length; ++i)

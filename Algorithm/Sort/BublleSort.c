@@ -3,6 +3,8 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
 
 /**
  * 值交换
@@ -38,12 +40,19 @@ void bublleSort(int array[], int length)
 
 int main(int argc, char const *argv[])
 {
-	int data[10] = {20, 5, 9, 1, 3};
-	bublleSort(data, 5);
-
-	for (int i = 0; i < 10; ++i)
+	int len = 10000;
+	int array[len];
+	for (int i = 0; i < len; ++i)
 	{
-		printf("%d\n", data[i]);
+		array[i] = random()%100;
+	}
+	int length = sizeof(array)/sizeof(array[0]);
+	
+	bublleSort(array, length);
+
+	for (int i = 0; i < length; ++i)
+	{
+		printf("%d\n", array[i]);
 	}	
 	return 0;
 }

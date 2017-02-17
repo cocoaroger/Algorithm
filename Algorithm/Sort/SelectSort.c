@@ -8,6 +8,8 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
 
 /**
  * 值交换
@@ -45,8 +47,14 @@ void selectSort(int array[], int length)
 
 int main(int argc, char const *argv[])
 {
-	int length = 10;
-	int array[10] = {1, 4, 5, 7, 3, 2, 1, 5, 10, 2};
+	int len = 10000;
+	int array[len];
+	for (int i = 0; i < len; ++i)
+	{
+		array[i] = random()%100;
+	}
+	int length = sizeof(array)/sizeof(array[0]);
+
 	selectSort(array, length);
 	for (int i = 0; i < length; ++i)
 	{

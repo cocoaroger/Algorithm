@@ -67,10 +67,17 @@ int* sort(int array[], int length)
 
 int main(int argc, char const *argv[])
 {
-	int data[5] = {20, 5, 9, 1, 3};
-	int *temp = sort(data, 5);
+	int len = 10000;
+	int array[len];
+	for (int i = 0; i < len; ++i)
+	{
+		array[i] = random()%100;
+	}
+	int length = sizeof(array)/sizeof(array[0]);
 
-	for (int i = 0; i < 5; ++i)
+	int *temp = sort(array, length);
+
+	for (int i = 0; i < length; ++i)
 	{
 		printf("%d\n", temp[i]);
 	}

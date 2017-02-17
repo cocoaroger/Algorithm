@@ -7,6 +7,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 
 void swap(int* a, int* b) 
 {
@@ -38,7 +39,7 @@ void maxHeapify(int array[], int start, int end)
 	}
 }
 
-void headSort(int array[], int length) {
+void heapSort(int array[], int length) {
 	int i;
 	// 初始化，i从最后一个父节点开始调整
 	for (i = length/2-1; i > 0; i--)
@@ -55,9 +56,15 @@ void headSort(int array[], int length) {
 
 int main(int argc, char const *argv[])
 {
-	int array[] = {10, 2, 3, 1, 5, 30, 12, 18, 25, 44, 45};
+	int len = 10000;
+	int array[len];
+	for (int i = 0; i < len; ++i)
+	{
+		array[i] = random()%100;
+	}
 	int length = sizeof(array)/sizeof(array[0]);
-	headSort(array, length);
+	
+	heapSort(array, length);
 	for (int i = 0; i < length; ++i)
 	{
 		printf("%d\n", array[i]);
