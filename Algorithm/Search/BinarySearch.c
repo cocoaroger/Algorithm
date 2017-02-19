@@ -52,3 +52,24 @@ int binary_search2(const int array[], int start, int end, int key)
 	}
 	return -1;
 }
+
+int main(int argc, char const *argv[])
+{
+	int array[] = {1, 2, 3, 5, 8, 10, 20, 40, 50};
+	int length = sizeof(array)/sizeof(array[0]);
+	int position = binary_search(array, 0, length-1, 50);
+	printf("position: %d\n", position);
+
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
