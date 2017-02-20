@@ -42,10 +42,10 @@ int binary_search2(const int array[], int start, int end, int key)
 		mid = start + (end - start)/2;
 		if (array[mid] > key)
 		{
-			start = mid+1;
+			start = mid-1;
 		} else if (array[mid] < key)
 		{
-			end = mid - 1;
+			end = mid+1;
 		} else {
 			return mid;
 		}
@@ -59,6 +59,10 @@ int main(int argc, char const *argv[])
 	int length = sizeof(array)/sizeof(array[0]);
 	int position = binary_search(array, 0, length-1, 50);
 	printf("position: %d\n", position);
+	
+	// int position2 = binary_search2(array, 0, length-2, 50);
+	
+	// printf("position2: %d\n", position2);
 
 	return 0;
 }
