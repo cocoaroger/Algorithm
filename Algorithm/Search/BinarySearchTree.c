@@ -16,3 +16,26 @@
 /**
  * 二叉搜索树查找算法
  */
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct _BinaryNode
+{
+	int key; // 节点元素
+	int attach; // 附加值
+	struct _BinaryNode *left; // 左子树
+	struct _BinaryNode *right; // 右子树
+} BinaryNode;
+
+BinaryNode* init() {
+	BinaryNode *node = (BinaryNode*)malloc(sizeof(BinaryNode));
+	node->left = NULL;
+	node->right = NULL;
+	return node;
+}
+
+
+
+
+
