@@ -13,10 +13,6 @@
  * 
  */
 
-/**
- * 二叉搜索树查找算法
- */
-
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -145,29 +141,32 @@ BinaryNode* search_min(BinaryNode *tree) {
  * @return         [description]
  */
 BinaryNode* bstree_insert(BinaryNode *tree, BinaryNode *newNode) {
-	BinaryNode *tempNode = NULL;
+	BinaryNode *parentNode = NULL;
 	BinaryNode *tempTree = tree;
 
 	while(tempTree != NULL) { // 查找新节点插入的位置
-		tempNode = tempTree;
+		parentNode = tempTree;
 
 		if (newNode->key < tempTree->key)
 		{
 			tempTree = tempTree->left;
-		} else {
+		} else if (newNode->key > tempTree->key) {
 			tempTree = tempTree->right;
+		} else { // key指相同的不插入树，直接返回树
+			free(newNode);
+			return tree;
 		}
 	}
 
-	newNode->parent = tempNode;
-	if (tempNode == NULL) // 没有找到位置，就做tree的root节点
+	newNode->parent = parentNode;
+	if (parentNode == NULL) // 没有找到位置，就做tree的root节点
 	{
 		tree = newNode;
-	} else if (newNode->key < tempNode->key)
+	} else if (newNode->key < parentNode->key)
 	{
-		tempNode->left = newNode;
+		parentNode->left = newNode;
 	} else {
-		tempNode->right = newNode;
+		parentNode->right = newNode;
 	}
 	return tree;
 }
@@ -182,8 +181,48 @@ BinaryNode* insert(BinaryNode *tree, Type key) {
 	return bstree_insert(tree, newNode);
 }
 
+/**
+ * 打印二叉树
+ * @param tree      树
+ * @param key       值
+ * @param direction 方向 0是根，-1是做，1是右
+ */
+void print_bstree(BinaryNode *tree, Type key, int direction)
+{
+	if (tree != NULL)
+	{
+		if (direction == 0)
+		{
+			printf("%2d is root\n", tree->key);
+		} else {
+			printf("%2d is %2d's %6s child\n", tree->key, key, direction ? "right" : "left");
+		}
 
+		print_bstree(tree->left, tree->key, -1);
+		print_bstree(tree->right, tree->key, 1);
+	}
+}
 
+/**
+ * 销毁二叉树
+ * @param tree [description]
+ */
+void destroy_bstree(BinaryNode *tree)
+{
+	if (tree == NULL)
+	{
+		return;
+	}
+	if (tree->left != NULL)
+	{
+		destroy_bstree(tree->left);
+	}
+	if (tree->right != NULL)
+	{
+		destroy_bstree(tree->right);
+	}
+	free(tree);
+}
 
 
 
