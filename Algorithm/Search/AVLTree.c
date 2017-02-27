@@ -29,6 +29,75 @@ AVL树的基本操作一般涉及运作同在不平衡的二叉查找树所运�
 // 不需要特殊的准备，树的结构不会由于查找而改变。
 // （这是与伸展树搜寻相对立的，它会因为搜寻而变更树结构。）
 
+#include <stdlib.h>
+#include <stdio.h>
+
+typedef int Type;
+/*
+获取树的高度
+ */
+#define HEIGHT(tree) 	( (tree==NULL) ? 0 : (((AVLTreeNode*)(tree))->height) )
+/*
+获取较大树
+ */
+#define MAX(a, b) 		((a) > (b) ? (a) : (b))
+
+typedef struct _AVLTreeNode
+{
+	Type key;
+	int height; 
+	struct _AVLTreeNode *left;
+	struct _AVLTreeNode *right;
+} AVLTreeNode;
+
+/**
+ * 创建节点
+ * @param  key   关键字
+ * @param  left  左节点
+ * @param  right 右节点
+ * @return       [description]
+ */
+static AVLTreeNode* avltree_create_node(Type key, AVLTreeNode *left, AVLTreeNode *right) {
+	AVLTreeNode *node;
+	node = (AVLTreeNode*)malloc(sizeof(AVLTreeNode));
+	if (node == NULL)
+	{
+		return NULL;
+	}
+
+	node->key = key;
+	node->height = 0;
+	node->left = left;
+	node->right = right;
+	return node;
+}
+
+/**
+ * 获取树的高度
+ * @param  tree [description]
+ * @return      [description]
+ */
+int avltree_height(AVLTreeNode *tree) {
+	return HEIGHT(tree);
+}
+
+/*
+左左结构的旋转方法
+ */
+static AVLTreeNode* left_left_rotation(AVLTreeNode *rootNode) {
+	AVLTreeNode *newRootNode;
+
+	newRootNode = rootNode->left;
+	rootNode->left = newRootNode->right;
+	newRootNode->right = rootNode;
+
+	rootNode->height = MAX(HEIGHT(rootNode->left), HEIGHT(rootNode->right)) + 1;
+	newRootNode->height = MAX(HEIGHT(newRootNode->left), HEIGHT(newRootNode->right)) + 1;
+
+	return newRootNode;
+}
+
+
 
 
 
