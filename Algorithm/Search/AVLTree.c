@@ -97,6 +97,22 @@ static AVLTreeNode* left_left_rotation(AVLTreeNode *rootNode) {
 	return newRootNode;
 }
 
+/*
+右右结构的旋转方法
+ */
+static AVLTreeNode* right_right_rotation(AVLTreeNode *rootNode) {
+	AVLTreeNode *newRootNode;
+
+	newRootNode = rootNode->right;
+	rootNode->right = newRootNode->left;
+	newRootNode->left = rootNode;
+
+	rootNode->height = MAX( HEIGHT(rootNode->left), HEIGHT(rootNode->right)) + 1;
+	newRootNode->height = MAX( HEIGHT(newRootNode->right), HEIGHT(newRootNode->left)) + 1;
+
+	return newRootNode;
+}
+
 
 
 
