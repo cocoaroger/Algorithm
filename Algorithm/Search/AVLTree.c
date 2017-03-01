@@ -82,7 +82,7 @@ int avltree_height(AVLTreeNode *tree) {
 }
 
 /*
-左左结构的旋转方法
+LL结构的旋转方法
  */
 static AVLTreeNode* left_left_rotation(AVLTreeNode *rootNode) {
 	AVLTreeNode *newRootNode;
@@ -98,7 +98,7 @@ static AVLTreeNode* left_left_rotation(AVLTreeNode *rootNode) {
 }
 
 /*
-右右结构的旋转方法
+RR结构的旋转方法
  */
 static AVLTreeNode* right_right_rotation(AVLTreeNode *rootNode) {
 	AVLTreeNode *newRootNode;
@@ -113,6 +113,27 @@ static AVLTreeNode* right_right_rotation(AVLTreeNode *rootNode) {
 	return newRootNode;
 }
 
+/*
+LR的旋转
+LR失去平衡的情况，需要经过两次旋转才能让AVL树恢复平衡
+1、根的左子树是RR结构，进行一次左子树RR旋转
+2、然后根编程了LL结构，进行一次根LL旋转
+ */
+static AVLTreeNode* left_right_rotation(AVLTreeNode *rootNode) {
+	rootNode->left = right_right_rotation(rootNode->left);
+	return left_left_rotation(rootNode);
+}
+
+/*
+RL的旋转
+RL与LR对称
+1、根的右子树是LL结构，进行一次右子树LL旋转
+2、然后根编程了RR结构，进行一次根RR旋转
+ */
+static AVLTreeNode* right_left_rotation(AVLTreeNode *rootNode) {
+	rootNode->right = left_left_rotation(rootNode->right);
+	return right_right_rotation(rootNode);
+}
 
 
 
