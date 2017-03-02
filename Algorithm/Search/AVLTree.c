@@ -135,6 +135,55 @@ static AVLTreeNode* right_left_rotation(AVLTreeNode *rootNode) {
 	return right_right_rotation(rootNode);
 }
 
+/**
+ * 将节点插入到AVL树中，并返回根节点	
+ * @param  tree AVL树的根节点
+ * @param  key  出入的节点的键值
+ * @return      根节点
+ */
+AVLTreeNode* avltree_insert(AVLTreeNode *tree, Type key) {
+	if (tree == NULL)
+	{
+		tree = avltree_create_node(key, NULL, NULL);
+		if (tree == NULL)
+		{
+			printf("%s\n", "create avltree node failed");
+			return NULL;
+		}
+	} 
+	else if (key < tree->key) // 插入左子树
+	{
+		tree->left = avltree_insert(tree->left, key);
+		if (HEIGHT(tree->left) - HEIGHT(tree->right) == 2)
+		{
+			tree = left_left_rotation(tree);
+		}
+		else 
+		{
+			tree = left_right_rotation(tree);
+		}
+	}
+	else if (key > tree->key) // 插入右子树
+	{
+		tree->right = avltree_insert(tree->right, key);
+		if (HEIGHT(tree->right) - HEIGHT(tree->left) == 2)
+		{
+			tree = right_right_rotation(tree);
+		}
+		else 
+		{
+			tree = right_left_rotation(tree);
+		}
+	}
+	else // key == tree->key 
+	{
+		printf("%s\n", "添加失败，不允许添加相同的节点");
+	}
+
+	tree->height = MAX(HEIGHT(tree->left), HEIGHT(tree->right)) + 1;
+
+	return tree;
+}
 
 
 
