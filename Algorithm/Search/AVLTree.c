@@ -81,6 +81,32 @@ int avltree_height(AVLTreeNode *tree) {
 	return HEIGHT(tree);
 }
 
+/**
+ * 查找子树中最大节点
+ * @param  tree  要查找的树
+ * @return       最大的节点
+ */
+static AVLTreeNode* avltree_maximun(AVLTreeNode *tree) {
+	AVLTreeNode *temp = tree;
+	while(temp->right != NULL) {
+		temp = temp->right;
+	}
+	return temp;
+}
+
+/**
+ * 查找最小节点
+ * @param  tree 被查找的树
+ * @return      最小节点
+ */
+static AVLTreeNode* avltree_min(AVLTreeNode *tree) {
+	AVLTreeNode *temp = tree;
+	while (temp->left != NULL) {
+		temp = temp->left;
+	}
+	return temp;
+}
+
 /*
 LL结构的旋转方法
  */
@@ -185,7 +211,105 @@ AVLTreeNode* avltree_insert(AVLTreeNode *tree, Type key) {
 	return tree;
 }
 
+/**
+ * 删除节点
+ * @param  tree       根节点
+ * @param  waitDelete 待删除的节点
+ * @return            新的根节点
+ */
+static AVLTreeNode* delete_node(AVLTreeNode *tree, AVLTreeNode *waitDelete) {
+	if (tree == NULL || waitDelete == NULL)
+	{
+		return NULL;
+	}
 
+	if (waitDelete->key < tree->key) // 在左子树
+	{
+		tree->left = delete_node(tree->left, waitDelete);
+
+		if (HEIGHT(tree->right) - HEIGHT(tree->left) == 2)
+		{
+			AVLTreeNode *right = tree->right;
+			if (HEIGHT(right->left) > HEIGHT(right->right))
+			{
+				tree = right_left_rotation(tree);
+			} else {
+				tree = right_right_rotation(tree);
+			}
+		}
+	}
+	else if (waitDelete->key > tree->key) // 在右子树
+	{
+		tree->right = delete_node(tree->right, waitDelete);
+
+		if (HEIGHT(tree->left) - HEIGHT(tree->right) == 2)
+		{
+			AVLTreeNode *left = tree->left;
+			if (HEIGHT(left->right) > HEIGHT(left->left))
+			{
+				tree = left_right_rotation(tree);
+			} else {
+				tree = left_left_rotation(tree);
+			}
+		}
+	}
+	else { // tree是要删除的节点
+		if ((tree->left) && (tree->right)) // tree的左右孩子都非空
+		{
+			if (HEIGHT(tree->left) > HEIGHT(tree->right))
+			{
+				// 如果tree的左子树比右子树高；
+                // 则(01)找出tree的左子树中的最大节点
+                //   (02)将该最大节点的值赋值给tree。
+                //   (03)删除该最大节点。
+                // 这类似于用"tree的左子树中最大节点"做"tree"的替身；
+                // 采用这种方式的好处是：删除"tree的左子树中最大节点"之后，AVL树仍然是平衡的。
+                AVLTreeNode *max = avltree_maximun(tree->left);
+                tree->key = max->key;
+                tree->left = delete_node(tree->left, max);
+			}
+			else 
+			{
+				// 如果tree的左子树不比右子树高(即它们相等，或右子树比左子树高1)
+                // 则(01)找出tree的右子树中的最小节点
+                //   (02)将该最小节点的值赋值给tree。
+                //   (03)删除该最小节点。
+                // 这类似于用"tree的右子树中最小节点"做"tree"的替身；
+                // 采用这种方式的好处是：删除"tree的右子树中最小节点"之后，AVL树仍然是平衡的。
+				AVLTreeNode *min = avltree_min(tree->right);
+				tree->key = min->key;
+				tree->right = delete_node(tree->right, min);
+			}
+		}
+		else 
+		{
+			AVLTreeNode *temp = tree;
+			tree = tree->left ? tree->left : tree->right;
+			free(temp);
+		}
+		
+	}
+
+	return tree;
+}
+
+/**
+ * 删除节点，返回根节点
+ * @param  tree 根节点
+ * @param  key  键值
+ * @return      根节点
+ */
+AVLTreeNode* avltree_delete(AVLTreeNode *tree, Type key) 
+{
+	AVLTreeNode *temp;
+
+	// avltree_search，及二叉查找树的查找方法
+	if (temp = avltree_search(tree, key) != NULL)
+	{
+		tree = delete_node(tree, temp);
+	}
+	return tree;
+}
 
 
 
