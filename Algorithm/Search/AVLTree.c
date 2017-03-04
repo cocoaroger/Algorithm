@@ -58,8 +58,7 @@ typedef struct _AVLTreeNode
  * @return       [description]
  */
 static AVLTreeNode* avltree_create_node(Type key, AVLTreeNode *left, AVLTreeNode *right) {
-	AVLTreeNode *node;
-	node = (AVLTreeNode*)malloc(sizeof(AVLTreeNode));
+	AVLTreeNode *node = (AVLTreeNode*)malloc(sizeof(AVLTreeNode));
 	if (node == NULL)
 	{
 		return NULL;
@@ -182,11 +181,13 @@ AVLTreeNode* avltree_insert(AVLTreeNode *tree, Type key) {
 		tree->left = avltree_insert(tree->left, key);
 		if (HEIGHT(tree->left) - HEIGHT(tree->right) == 2)
 		{
-			tree = left_left_rotation(tree);
-		}
-		else 
-		{
-			tree = left_right_rotation(tree);
+			if (key < tree->left->key)
+			{
+				tree = left_left_rotation(tree);	
+			} else {
+
+				tree = left_right_rotation(tree);
+			}	
 		}
 	}
 	else if (key > tree->key) // 插入右子树
@@ -194,11 +195,12 @@ AVLTreeNode* avltree_insert(AVLTreeNode *tree, Type key) {
 		tree->right = avltree_insert(tree->right, key);
 		if (HEIGHT(tree->right) - HEIGHT(tree->left) == 2)
 		{
-			tree = right_right_rotation(tree);
-		}
-		else 
-		{
-			tree = right_left_rotation(tree);
+			if (key > tree->right->key)
+			{
+				tree = right_right_rotation(tree);	
+			} else {
+				tree = right_left_rotation(tree);
+			}	
 		}
 	}
 	else // key == tree->key 
@@ -293,6 +295,23 @@ static AVLTreeNode* delete_node(AVLTreeNode *tree, AVLTreeNode *waitDelete) {
 	return tree;
 }
 
+AVLTreeNode* avltree_search(AVLTreeNode *tree, Type key) {
+	if (tree == NULL)
+	{
+		return NULL;
+	}
+
+	if (key < tree->key)
+	{
+		avltree_search(tree->left, key);
+	} else if (key > tree->key)
+	{
+		avltree_search(tree->right, key);
+	}
+
+	return tree;
+}
+
 /**
  * 删除节点，返回根节点
  * @param  tree 根节点
@@ -301,15 +320,91 @@ static AVLTreeNode* delete_node(AVLTreeNode *tree, AVLTreeNode *waitDelete) {
  */
 AVLTreeNode* avltree_delete(AVLTreeNode *tree, Type key) 
 {
-	AVLTreeNode *temp;
+	AVLTreeNode *temp = avltree_search(tree, key);
 
 	// avltree_search，及二叉查找树的查找方法
-	if (temp = avltree_search(tree, key) != NULL)
+	if (temp != NULL)
 	{
 		tree = delete_node(tree, temp);
 	}
 	return tree;
 }
+
+
+/*
+  * 前序遍历"AVL树"
+  */
+ void preorder_avltree(AVLTreeNode *tree)
+ {
+     if(tree != NULL)
+     {
+         printf("%d ", tree->key);
+         preorder_avltree(tree->left);
+         preorder_avltree(tree->right);
+     }
+ }
+ 
+ 
+ /*
+  * 中序遍历"AVL树"
+  */
+ void inorder_avltree(AVLTreeNode *tree)
+ {
+     if(tree != NULL)
+     {
+         inorder_avltree(tree->left);
+         printf("%d ", tree->key);
+         inorder_avltree(tree->right);
+     }
+ }
+ 
+ /*
+  * 后序遍历"AVL树"
+  */
+ void postorder_avltree(AVLTreeNode *tree)
+ {
+     if(tree != NULL)
+     {
+         postorder_avltree(tree->left);
+         postorder_avltree(tree->right);
+         printf("%d ", tree->key);
+     }
+ }
+
+#define ARRAY_SIZE(a) ( (sizeof(a)) / (sizeof(a[0])) )
+/**
+ * 测试
+ */
+int main(int argc, char const *argv[])
+{
+	static int array[] = {3,2,1,4,5,6,7,16,15,14,13,12,11,10,8,9};
+
+	AVLTreeNode *root = NULL;
+
+	for (int i = 0; i < ARRAY_SIZE(array); ++i)
+	{
+		printf("%d\n", array[i]);
+		root = avltree_insert(root, array[i]);
+	}
+
+	printf("\n== 前序遍历: ");
+    preorder_avltree(root);
+    
+    printf("\n== 中序遍历: ");
+    inorder_avltree(root);
+
+    printf("\n== 后序遍历: ");
+    postorder_avltree(root);
+    printf("\n");
+
+    
+	return 0;
+}
+
+
+
+
+
 
 
 
