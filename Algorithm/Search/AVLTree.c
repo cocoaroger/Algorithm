@@ -296,20 +296,18 @@ static AVLTreeNode* delete_node(AVLTreeNode *tree, AVLTreeNode *waitDelete) {
 }
 
 AVLTreeNode* avltree_search(AVLTreeNode *tree, Type key) {
-	if (tree == NULL)
+	if (tree == NULL || tree->key == key)
 	{
-		return NULL;
+		return tree;
 	}
 
 	if (key < tree->key)
 	{
-		avltree_search(tree->left, key);
-	} else if (key > tree->key)
+		return avltree_search(tree->left, key);
+	} else
 	{
-		avltree_search(tree->right, key);
+		return avltree_search(tree->right, key);
 	}
-
-	return tree;
 }
 
 /**
@@ -387,17 +385,30 @@ int main(int argc, char const *argv[])
 		root = avltree_insert(root, array[i]);
 	}
 
-	printf("\n== 前序遍历: ");
+	printf("\n前序遍历: ");
     preorder_avltree(root);
     
-    printf("\n== 中序遍历: ");
+    printf("\n中序遍历: ");
     inorder_avltree(root);
 
-    printf("\n== 后序遍历: ");
+    printf("\n后序遍历: ");
     postorder_avltree(root);
     printf("\n");
 
-    
+    printf("高度：%d\n", avltree_height(root));
+    printf("最小值：%d\n", avltree_min(root)->key);
+    printf("最大值：%d\n", avltree_maximun(root)->key);
+
+    int i = 8;
+    printf("\n删除根节点：%d\n", 8);
+    root = avltree_delete(root, i);
+
+    printf("高度：%d\n", avltree_height(root));
+    printf("\n中序遍历: ");
+    inorder_avltree(root);
+
+    // 销毁二叉树
+
 	return 0;
 }
 
