@@ -39,3 +39,33 @@
 将红黑树内的某一个节点删除。需要执行的操作依次是：首先，将红黑树当作一颗二叉查找树，将该节点从二叉查找树中删除；
 然后，通过"旋转和重新着色"等一系列来修正该树，使之重新成为一棵红黑树。
  */
+
+enum RBTColor
+{
+	Red,
+	Black	
+};
+
+template <class T>
+class RBNode
+{
+public:
+	RBTColor color; // 颜色
+	T key; // 关键字（键值）
+	RBNode *left;
+	RBNode *right;
+	RBNode *parent;
+
+	RBNode(T value, RBTColor c, RBNode *l, RBNode *r, RBNode *p):
+		key(value), color(c), left(l), right(r), parent(p) {}
+};
+
+
+template <class T>
+class RBTree
+{
+public:
+	RBTree();
+	~RBTree();
+	
+};
