@@ -64,8 +64,12 @@ public:
 template <class T>
 class RBTree
 {
+private:
+	RBNode<T> *mRoot; // 根节点
+
 public:
 	RBTree();
 	~RBTree();
+	
 	
 };
