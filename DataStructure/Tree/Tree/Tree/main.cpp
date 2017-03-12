@@ -7,7 +7,7 @@
 //
 
 #include <iostream>
-#include "RBTree.h"
+#include "RBTree.hpp"
 
 using namespace std;
 
