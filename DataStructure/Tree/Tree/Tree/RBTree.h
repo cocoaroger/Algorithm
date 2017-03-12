@@ -71,6 +71,10 @@ public:
    打印
    */
   void print();
+  /**
+   中序遍历
+   */
+  void inOrder();
   
 private:
   
@@ -112,15 +116,19 @@ private:
    @param direction 0：表示根节点 -1：左孩子 1：右孩子 
    */
   void print(RBNode<T>* tree, T key, int direction);
+  /**
+   中序遍历
+   */
+  void inOrder(RBNode<T>* node) const;
   
 #define rb_parent(node)    ((node)->parent)
 #define rb_color(node)    ((node)->color)
-#define rb_is_red(node)    ((node)->color==Red)
-#define rb_is_black(node)    ((node)->color==Black)
-#define rb_set_red(node)    do { (node)->color=Red; } while (0)
-#define rb_set_black(node)    do { (node)->color=Black; } while (0)
-#define rb_set_parent(node, parent)    do { (node)->parent=(parent); } while (0)
-#define rb_set_color(node, color)    do { (node)->color=(color); } while (0)
+#define rb_is_red(node)    ((node)->color == Red)
+#define rb_is_black(node)    ((node)->color == Black)
+#define rb_set_red(node)    do { (node)->color = Red; } while (0)
+#define rb_set_black(node)    do { (node)->color = Black; } while (0)
+#define rb_set_parent(node, parent)    do { (node)->parent = (parent); } while (0)
+#define rb_set_color(node, color)    do { (node)->color = (color); } while (0)
 
 };
 
@@ -130,7 +138,7 @@ private:
  构造函数
  */
 template <class T>
-RBTree<T>::RBTree() :root(NULL) {
+RBTree<T>::RBTree():root(NULL) {
   root = NULL;
 }
 
@@ -172,6 +180,11 @@ void RBTree<T>::print() {
   if (root != NULL) {
     print(root, root->key, 0);
   }
+}
+
+template <class T>
+void RBTree<T>::inOrder() {
+  inOrder(root);
 }
 
 // MARK: Private Method
@@ -217,7 +230,7 @@ RBNode<T>* RBTree<T>::iterativeSearch(RBNode<T> *tree, T key) const {
  *
  */
 template <class T>
-void leftRotate(RBNode<T>* &root, RBNode<T>* x) {
+void RBTree<T>::leftRotate(RBNode<T>* &root, RBNode<T>* x) {
   RBNode<T> *y = x->right;
   
   // 1. y的左节点赋值给x的右节点
@@ -229,7 +242,7 @@ void leftRotate(RBNode<T>* &root, RBNode<T>* x) {
   // 2. x的parent赋值给y的parent
   y->parent = x->parent;
   if (x->parent == NULL) {
-    root == y;
+    root = y;
   } else {
     if (x->parent->left == x) {
       x->parent->left = y;
@@ -245,7 +258,7 @@ void leftRotate(RBNode<T>* &root, RBNode<T>* x) {
 
 
 template <class T>
-void rightRotate(RBNode<T>* &root, RBNode<T>* y) {
+void RBTree<T>::rightRotate(RBNode<T>* &root, RBNode<T>* y) {
   RBNode<T>* x = y->left;
   
   // 1. 将x的右节点赋值给y的左节点
@@ -259,15 +272,15 @@ void rightRotate(RBNode<T>* &root, RBNode<T>* y) {
   if (y->parent == NULL) {
     root = x;
   } else {
-    if (y->parent->left == y) {
-      y->parent->left = x;
-    } else {
+    if (y == y->parent->right) {
       y->parent->right = x;
+    } else {
+      y->parent->left = x;
     }
   }
   
   // 3. 将y设置为x的左节点，y的父节点设为x
-  x->left = y;
+  x->right = y;
   y->parent = x;
 }
 
@@ -283,18 +296,21 @@ void RBTree<T>::insertFixUp(RBNode<T>* &root, RBNode<T>* node) {
   RBNode<T> *parent, *gparent;
   
   // 若“父节点存在，并且父节点的颜色是红色”
-  while ((parent = rb_parent(node)) && rb_is_red(node)) {
+  while ((parent = rb_parent(node)) && rb_is_red(parent)) {
     gparent = rb_parent(parent);
     
     // 若“父节点”是“祖父节点”的左孩子
     if (parent == gparent->left) {
       // case 1: 叔叔节点是红色
-      RBNode<T> *uncle = gparent->right;
-      if (uncle && rb_is_red(uncle)) {
-        rb_set_black(uncle);
-        rb_set_black(parent);
-        rb_set_red(gparent);
-        node = gparent;
+      {
+        RBNode<T> *uncle = gparent->right;
+        if (uncle && rb_is_red(uncle)) {
+          rb_set_black(uncle);
+          rb_set_black(parent);
+          rb_set_red(gparent);
+          node = gparent;
+          continue;
+        }
       }
       
       // case 2: 叔叔是黑色，且当前节点是右孩子
@@ -313,12 +329,15 @@ void RBTree<T>::insertFixUp(RBNode<T>* &root, RBNode<T>* node) {
       
     } else { // 若“node的父节点”是“node的祖父节点的右孩子”
       // case 1: 叔叔节点是红色
-      RBNode<T> *uncle = gparent->left;
-      if (uncle && rb_is_red(uncle)) {
-        rb_set_black(uncle);
-        rb_set_black(parent);
-        rb_set_red(gparent);
-        node = gparent;
+      {
+        RBNode<T> *uncle = gparent->left;
+        if (uncle && rb_is_red(uncle)) {
+          rb_set_black(uncle);
+          rb_set_black(parent);
+          rb_set_red(gparent);
+          node = gparent;
+          continue;
+        }
       }
       
       // case 2: 叔叔是黑色，且当前节点是左孩子
@@ -370,7 +389,7 @@ void RBTree<T>::insert(RBNode<T>* &root, RBNode<T>* node) {
   // 2. 设置节点颜色为红色
   node->color = Red;
   
-  // 3.修正
+  // 3. 修正
   insertFixUp(root, node);
 }
 
@@ -394,14 +413,22 @@ template <class T>
 void RBTree<T>::print(RBNode<T> *tree, T key, int direction) {
   if (tree != NULL) {
     if (direction == 0) {
-      cout << setw(2) << tree->key << "(Black) is root" << endl;
+      cout << tree->key << " (Black) is root" << endl;
     } else {
-      cout << setw(2) << tree->key << (rb_is_red(tree) ? "Red" : "Black") << "is" <<
-      setw(2) << key << "'s" << setw(12) << (direction == 1 ? "right child" : "left child") << endl;
+      cout << tree->key << (rb_is_red(tree) ? " Red" : " Black") << " is " << key << "'s " << (direction == 1 ? "right child" : "left child") << endl;
     }
     
     print(tree->left, tree->key, -1);
     print(tree->right, tree->key, 1);
+  }
+}
+
+template <class T>
+void RBTree<T>::inOrder(RBNode<T> *node) const {
+  if (node != NULL) {
+    inOrder(node->left);
+    cout << node->key << " ";
+    inOrder(node->right);
   }
 }
 
