@@ -102,7 +102,7 @@ private:
   // 插入函数
   void insert(RBNode<T>* &root, RBNode<T>* node);
   // 删除修正函数
-  void removeFixUp(RBNode<T>* &root, RBNode<T>* node);
+  void removeFixUp(RBNode<T>* &root, RBNode<T>* node, RBNode<T>* parent);
   // 删除函数
   void remove(RBNode<T>* &root, RBNode<T>* node);
   
@@ -168,6 +168,14 @@ void RBTree<T>::insert(T key) {
   }
   
   insert(root, z);
+}
+
+template <class T>
+void RBTree<T>::remove(T key) {
+  RBNode<T> *node;
+  if ((node = search(key)) != NULL) {
+    remove(root, node);
+  }
 }
 
 template <class T>
@@ -391,6 +399,182 @@ void RBTree<T>::insert(RBNode<T>* &root, RBNode<T>* node) {
   
   // 3. 修正
   insertFixUp(root, node);
+}
+
+template <class T>
+void RBTree<T>::removeFixUp(RBNode<T>* &root, RBNode<T>* node, RBNode<T>* parent) {
+  RBNode<T> *other;
+  
+  while ((!node || rb_is_black(node)) && node != root) {
+    if (parent->left == node) {
+      other = parent->right;
+      if (rb_is_red(other)) {
+        // case 1: x的兄弟w是红色的
+        rb_set_black(other);
+        rb_set_red(parent);
+        leftRotate(root, parent);
+        other = parent->right;
+      }
+      
+      if ((!other->left || rb_is_black(other->left)) &&
+          (!other->right || rb_is_black(other->right))) {
+        // case 2: x的兄弟w是黑色，且w的两个孩子也都是黑色的
+        rb_set_red(other);
+        node = parent;
+        parent = rb_parent(node);
+      } else {
+        if (!other->right || rb_is_black(other->right)) {
+          // case 3: x的兄弟w是黑色的，并且w的左孩子是红色，右孩子为黑色
+          rb_set_black(other->left);
+          rb_set_red(other);
+          rightRotate(root, other);
+          other = parent->right;
+        }
+        
+        // case 4: x的兄弟是黑色的；并且w的右孩子是红色的，左孩子任意颜色
+        RBColor pc = rb_color(parent);
+        rb_set_color(other, pc);
+        rb_set_black(parent);
+        rb_set_black(other->right);
+        leftRotate(root, parent);
+        node = root;
+        break;
+      }
+    }else {
+      other = parent->left;
+      if (rb_is_red(other)) {
+        // case 1: x的兄弟w是红色的
+        rb_set_black(other);
+        rb_set_red(parent);
+        rightRotate(root, parent);
+        other = parent->left;
+      }
+      
+      if ((!other->left || rb_is_black(other->left))
+          (!other->right || rb_is_black(other->right))) {
+        // case 2: x的兄弟w是黑色，且w的两个孩子也都是黑色
+        rb_set_red(other);
+        node = parent;
+        parent = rb_parent(node);
+      } else {
+        if (!other->left || rb_is_black(other->left)) {
+          // case 3: x的兄弟w是黑色的，并且w的左孩子是红色，右孩子是黑色
+          rb_set_black(other->right);
+          rb_set_red(other);
+          leftRotate(root, other);
+          other = parent->left;
+        }
+        
+        // case 4: x的兄弟w是黑色的；并且w的右孩子是红色的，左孩子任意颜色
+        RBColor pc = rb_color(parent);
+        rb_set_color(other, pc);
+        rb_set_black(parent);
+        rb_set_black(other->left);
+        rightRotate(root, parent);
+        node = root;
+        break;
+      }
+    }
+  }
+  
+  if (node) {
+    rb_set_black(node);
+  }
+}
+
+template <class T>
+void RBTree<T>::remove(RBNode<T>* &root, RBNode<T>* node) {
+  RBNode<T> *child, *parent;
+  RBColor color;
+  
+  // 被删除节点的“左右孩子都不为空”的情况
+  if ((node->left != NULL) && (node->right != NULL)) {
+    
+    // 被删节点的后继节点。（称为“取代节点”）
+    // 用它来取代“被删节点”的位置，然后再将“被删节点”去掉
+    RBNode<T> *replace = node;
+    
+    // 获取后继节点
+    replace = node->right;
+    while (replace->left != NULL) {
+      replace = replace->left;
+    }
+    
+    // “node节点”不是根节点（只有根节点不存在父节点）
+    if (rb_parent(node)) {
+      if (rb_parent(node)->left == node) {
+        rb_parent(node)->left = replace;
+      } else {
+        rb_parent(node)->right = replace;
+      }
+    } else {
+      // “node节点”是根节点，更新根节点
+      root = replace;
+    }
+    
+    // child是"取代节点"的右孩子，也是需要"调整的节点"。
+    // "取代节点"肯定不存在左孩子！因为它是一个后继节点。
+    child = replace->right;
+    parent = rb_parent(replace);
+    // 保存"取代节点"的颜色
+    color = rb_color(replace);
+    
+    // "被删除节点"是"它的后继节点的父节点"
+    if (parent == node) {
+      parent = replace;
+    } else {
+      // child 不为空
+      if (child) {
+        rb_set_parent(child, parent);
+      }
+      parent->left = child;
+      
+      replace->right = node->right;
+      rb_set_parent(node->right, replace);
+    }
+    
+    replace->parent = node->parent;
+    replace->color = node->color;
+    replace->left = node->left;
+    node->left->parent = replace;
+    
+    if (color == Black) {
+      removeFixUp(root, child, parent);
+    }
+    
+    delete node;
+    return;
+  }
+  
+  if (node->left != NULL) {
+    child = node->left;
+  } else {
+    child = node->right;
+  }
+  
+  parent = node->right;
+  // 保存“取代节点”的颜色
+  color = node->color;
+  
+  if (child) {
+    child->parent = parent;
+  }
+  
+  // “node节点”不是根节点
+  if (parent) {
+    if (parent->left == node) {
+      parent->left = child;
+    } else {
+      parent->right = child;
+    }
+  } else {
+    root = child;
+  }
+  
+  if (color == Black) {
+    removeFixUp(root, child, parent);
+  }
+  delete node;
 }
 
 template <class T>
