@@ -39,17 +39,17 @@ int main(int argc, const char * argv[]) {
   // 中序遍历
   tree->inOrder();
   cout << endl;
-//  
-//  if (check_remove) {
-//    for (i = 0; i < ilen; i++) {
-//      tree->remove(a[i]);
-//      
-//      cout << "== 删除节点：" << a[i] << endl;
-//      cout << "== 树的详细信息：" << endl;
-//      tree->print();
-//      cout << endl;
-//    }
-//  }
+  
+  if (check_remove) {
+    for (i = 0; i < ilen; i++) {
+      tree->remove(a[i]);
+      
+      cout << "== 删除节点：" << a[i] << endl;
+      cout << "== 树的详细信息：" << endl;
+      tree->print();
+      cout << endl;
+    }
+  }
   
   // 销毁红黑树
   tree->destrory();

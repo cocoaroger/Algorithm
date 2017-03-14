@@ -432,15 +432,14 @@ void RBTree<T>::removeFixUp(RBNode<T>* &root, RBNode<T>* node, RBNode<T>* parent
         }
         
         // case 4: x的兄弟是黑色的；并且w的右孩子是红色的，左孩子任意颜色
-        RBColor pc = rb_color(parent);
-        rb_set_color(other, pc);
+        rb_set_color(other, parent->color);
         rb_set_black(parent);
         rb_set_black(other->right);
         leftRotate(root, parent);
         node = root;
         break;
       }
-    }else {
+    } else {
       other = parent->left;
       if (rb_is_red(other)) {
         // case 1: x的兄弟w是红色的
@@ -450,7 +449,7 @@ void RBTree<T>::removeFixUp(RBNode<T>* &root, RBNode<T>* node, RBNode<T>* parent
         other = parent->left;
       }
       
-      if ((!other->left || rb_is_black(other->left))
+      if ((!other->left || rb_is_black(other->left)) &&
           (!other->right || rb_is_black(other->right))) {
         // case 2: x的兄弟w是黑色，且w的两个孩子也都是黑色
         rb_set_red(other);
@@ -466,8 +465,7 @@ void RBTree<T>::removeFixUp(RBNode<T>* &root, RBNode<T>* node, RBNode<T>* parent
         }
         
         // case 4: x的兄弟w是黑色的；并且w的右孩子是红色的，左孩子任意颜色
-        RBColor pc = rb_color(parent);
-        rb_set_color(other, pc);
+        rb_set_color(other, parent->color);
         rb_set_black(parent);
         rb_set_black(other->left);
         rightRotate(root, parent);
@@ -530,7 +528,7 @@ void RBTree<T>::remove(RBNode<T>* &root, RBNode<T>* node) {
       parent->left = child;
       
       replace->right = node->right;
-      rb_set_parent(node->right, replace);
+      node->right->parent = replace;
     }
     
     replace->parent = node->parent;
@@ -552,7 +550,7 @@ void RBTree<T>::remove(RBNode<T>* &root, RBNode<T>* node) {
     child = node->right;
   }
   
-  parent = node->right;
+  parent = node->parent;
   // 保存“取代节点”的颜色
   color = node->color;
   
