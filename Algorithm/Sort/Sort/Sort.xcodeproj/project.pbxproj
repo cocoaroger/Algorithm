@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DBBD32C61E7D7BC9009408F3 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DBBD32C51E7D7BC9009408F3 /* main.cpp */; };
+		DBBD32CE1E7EC050009408F3 /* TopologicalOrder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DBBD32CC1E7EC050009408F3 /* TopologicalOrder.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,8 @@
 /* Begin PBXFileReference section */
 		DBBD32C21E7D7BC9009408F3 /* Sort */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Sort; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBBD32C51E7D7BC9009408F3 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		DBBD32CC1E7EC050009408F3 /* TopologicalOrder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TopologicalOrder.cpp; sourceTree = "<group>"; };
+		DBBD32CD1E7EC050009408F3 /* TopologicalOrder.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TopologicalOrder.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +60,8 @@
 		DBBD32C41E7D7BC9009408F3 /* Sort */ = {
 			isa = PBXGroup;
 			children = (
+				DBBD32CC1E7EC050009408F3 /* TopologicalOrder.cpp */,
+				DBBD32CD1E7EC050009408F3 /* TopologicalOrder.hpp */,
 				DBBD32C51E7D7BC9009408F3 /* main.cpp */,
 			);
 			path = Sort;
@@ -119,6 +124,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DBBD32CE1E7EC050009408F3 /* TopologicalOrder.cpp in Sources */,
 				DBBD32C61E7D7BC9009408F3 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -246,6 +252,7 @@
 				DBBD32CB1E7D7BC9009408F3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
