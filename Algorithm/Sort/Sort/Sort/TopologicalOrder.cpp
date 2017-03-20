@@ -128,7 +128,93 @@ char ListDG::readChar() {
 }
 
 void ListDG::DFS(int i, int *visited) {
+  ENode *node;
   
+  visited[i] = 1;
+  cout << _vertexs[i].data << " ";
+  node = _vertexs[i].firstEdge;
+  while (node != NULL) {
+    if (!visited[node->index]) {
+      DFS(node->index, visited);
+    }
+    node = node->nextEdge;
+  }
+}
+
+void ListDG::DFS() {
+  int *visited; // 顶点访问标记
+  
+  visited = new int(_vertexNum);
+  for (int i = 0; i < _vertexNum; i++) {
+    visited[i] = 0;
+  }
+  
+  cout << "== DFS:";
+  for (int i = 0; i < _vertexNum; i++) {
+    if (!visited[i]) {
+      DFS(i, visited);
+    }
+  }
+  cout << endl;
+  
+  delete []visited;
+}
+
+void ListDG::BFS() {
+  int head = 0, rear = 0;
+  int *queue;
+  int *visited;
+  ENode *node;
+  
+  queue = new int(_vertexNum);
+  visited = new int(_vertexNum);
+  for (int i = 0; i < _vertexNum; i++) {
+    visited[i] = 0;
+  }
+  
+  cout << "==BFS:";
+  int j, k;
+  for (int i = 0; i < _vertexNum; i++) {
+    if (!visited[i]) {
+      visited[i] = 1;
+      cout << _vertexs[i].data << " ";
+      queue[rear++] = i; // 入队列
+    }
+    
+    while (head != rear) {
+      j = queue[head++]; // 出队列
+      node = _vertexs[j].firstEdge;
+      
+      while (node != NULL) {
+        k = node->index;
+        if (!visited[k]) {
+          visited[k] = 1;
+          cout << _vertexs[k].data << " ";
+          queue[rear++] = k;
+        }
+        node = node->nextEdge;
+      }
+    }
+  }
+  
+  cout << endl;
+  delete []visited;
+  delete []queue;
+}
+
+void ListDG::print() {
+  ENode *node;
+  
+  cout << "== List Graph:" << endl;
+  for (int i = 0; i < _vertexNum; i++) {
+    cout << i << "(" << _vertexs[i].data << "):";
+    node = _vertexs[i].firstEdge;
+    while (node != NULL) {
+      cout << node->index << "(" << _vertexs[node->index].data << ") ";
+      node = node->nextEdge;
+    }
+    cout << endl;
+  }
 }
 
 /**
@@ -140,3 +226,31 @@ int ListDG::topologicalOrder() {
   
   return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
