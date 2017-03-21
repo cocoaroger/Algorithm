@@ -157,7 +157,7 @@ void ListDG::DFS() {
   }
   cout << endl;
   
-  delete []visited;
+//  delete []visited;
 }
 
 void ListDG::BFS() {
@@ -168,6 +168,7 @@ void ListDG::BFS() {
   
   queue = new int(_vertexNum);
   visited = new int(_vertexNum);
+  
   for (int i = 0; i < _vertexNum; i++) {
     visited[i] = 0;
   }
@@ -198,8 +199,8 @@ void ListDG::BFS() {
   }
   
   cout << endl;
-  delete []visited;
-  delete []queue;
+//  delete []visited;
+//  delete []queue;
 }
 
 void ListDG::print() {
@@ -217,13 +218,81 @@ void ListDG::print() {
   }
 }
 
+
+
 /**
  拓扑排序
 
  @return -1：失败 0：失败 1：成功并输出结果
  */
 int ListDG::topologicalOrder() {
+  int i = 0, j = 0, index = 0;
+  int head = 0, rear = 0; // 辅助队列的头和尾
+  int *queue; // 辅助队列
+  int *ins; // 入度数组
+  char *tops; // 拓扑排序结果数组，记录每个节点的排序后的序号
+  ENode *node;
   
+  ins = new int(_vertexNum);
+  queue = new int(_vertexNum);
+  tops = new char(_vertexNum);
+  memset(ins, 0, _vertexNum * sizeof(int));
+  memset(queue, 0, _vertexNum * sizeof(int));
+  memset(tops, 0, _vertexNum * sizeof(char));
+  
+  // 统计每个顶点的入度
+  for (i = 0; i < _vertexNum; i++) {
+    node = _vertexs[i].firstEdge;
+    while (node != NULL) {
+      ins[node->index]++;
+      node = node->nextEdge;
+    }
+  }
+  
+  // 将所有入度为0的顶点入队列
+  for (i = 0; i < _vertexNum; i++) {
+    if (ins[i] == 0) {
+      queue[rear++] = i; // 入队列
+    }
+  }
+  
+  while (head != rear) { // 队列非空
+    j = queue[head++]; // 出队列，j是顶点的序号
+    tops[index++] = _vertexs[j].data; // 将该顶点添加到tops中，tops是排序结果
+    node = _vertexs[j].firstEdge; // 获取以该顶点为起点的出边队列
+    
+    // 将与"node"关联的节点的入度减1；
+    // 若减1之后，该节点的入度为0；则将该节点添加到队列中。
+    while (node != NULL) {
+      // 将节点(序号为node->ivex)的入度减1。
+      ins[node->index]--;
+      // 若节点的入度为0，则将其"入队列"
+      if (ins[node->index] == 0) {
+        queue[rear++] = node->index; // 入队列
+      }
+      
+      node = node->nextEdge;
+    }
+  }
+  
+  if (index != _vertexNum) {
+    cout << "Graph has a cycle" << endl;
+    delete queue;
+    delete ins;
+    delete tops;
+    return 1;
+  }
+  
+  // 打印拓扑排序结果
+  cout << "== TopSort:";
+  for (i = 0; i < _vertexNum; i++) {
+    cout << tops[i] << " ";
+  }
+  cout << endl;
+  
+  delete queue;
+  delete ins;
+  delete tops;
   return 0;
 }
 
