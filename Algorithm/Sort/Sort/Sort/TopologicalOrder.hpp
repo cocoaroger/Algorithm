@@ -6,7 +6,7 @@
 //  Copyright © 2017年 cocoaroger. All rights reserved.
 //
 // 概念：
-// 拓扑排序(Topological Order)是指，将一个有向无环图(Directed Acyclic Graph简称DAG)进行排序进而得到一个有序的线性序列。
+// 拓扑排序(Topological Order)是指，将一个有向无环图(Directed Acyclic Graph简称DAG)进行度排序，进而得到一个有序的线性序列。
 
 
 #ifndef TopologicalOrder_hpp
@@ -17,7 +17,7 @@
 // 邻接表
 class ListDG {
 private: // 内部类
-  // 邻接表中表对应的链表的顶点
+  // 邻接表中表对应的链表的顶点，指向的边信息
   class ENode {
     int index; // 该边所指向的顶点的位置
     ENode *nextEdge; // 指向下一条弧的指针

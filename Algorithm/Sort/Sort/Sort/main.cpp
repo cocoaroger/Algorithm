@@ -4,19 +4,22 @@
 //
 //  Created by roger wu on 2017/3/18.
 //  Copyright © 2017年 cocoaroger. All rights reserved.
-//
+//  数据结构：图的拓扑排序测试
 
 #include <iostream>
 #include "TopologicalOrder.hpp"
+#include <algorithm>
+#include <iterator>
 
 int main(int argc, const char * argv[]) {
-  char vertexs[] = {'A', 'B', 'C', 'D', 'E', 'F', 'G'};
-  char edges[][2] = {
+  
+  char vertexs[] = {'A', 'B', 'C', 'D', 'E', 'F', 'G'}; // 顶点
+  char edges[][2] = { // 两点，构成一边
     {'A', 'G'},
     {'B', 'A'},
     {'B', 'D'},
-    {'C', 'F'},
-    {'C', 'G'},
+    {'F', 'C'},
+//    {'C', 'G'},
     {'D', 'E'},
     {'D', 'F'}
   };
@@ -28,6 +31,7 @@ int main(int argc, const char * argv[]) {
   
   dg = new ListDG(vertexs, vlength, edges, elength);
   dg->print();
+  
   dg->DFS();
   dg->BFS();
   

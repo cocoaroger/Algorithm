@@ -57,7 +57,7 @@ ListDG::ListDG() {
 ListDG::ListDG(char vertexs[], int vlength, char edges[][2], int elength) {
   char c1, c2;
   int p1, p2;
-  ENode *node1;
+  ENode *edge;
   
   _vertexNum = vlength;
   _edgeNum = elength;
@@ -75,13 +75,13 @@ ListDG::ListDG(char vertexs[], int vlength, char edges[][2], int elength) {
     p1 = getPosition(c1);
     p2 = getPosition(c2);
     
-    node1 = new ENode();
-    node1->index = p2;
+    edge = new ENode();
+    edge->index = p2;
     
     if (_vertexs[p1].firstEdge == NULL) {
-      _vertexs[p1].firstEdge = node1;
+      _vertexs[p1].firstEdge = edge;
     } else {
-      linkLast(_vertexs[p1].firstEdge, node1);
+      linkLast(_vertexs[p1].firstEdge, edge);
     }
   }
 }
@@ -102,7 +102,6 @@ ListDG::~ListDG() {
 
 void ListDG::linkLast(ListDG::ENode *list, ListDG::ENode *node) {
   ENode *p = list;
-  
   while (p->nextEdge) {
     p = p->nextEdge;
   }
@@ -128,21 +127,21 @@ char ListDG::readChar() {
 }
 
 void ListDG::DFS(int i, int *visited) {
-  ENode *node;
+  ENode *edge;
   
   visited[i] = 1;
   cout << _vertexs[i].data << " ";
-  node = _vertexs[i].firstEdge;
-  while (node != NULL) {
-    if (!visited[node->index]) {
-      DFS(node->index, visited);
+  edge = _vertexs[i].firstEdge;
+  while (edge != NULL) {
+    if (!visited[edge->index]) { // 未被访问过
+      DFS(edge->index, visited);
     }
-    node = node->nextEdge;
+    edge = edge->nextEdge;
   }
 }
 
 void ListDG::DFS() {
-  int *visited; // 顶点访问标记
+  int *visited = NULL; // 顶点访问标记
   
   visited = new int(_vertexNum);
   for (int i = 0; i < _vertexNum; i++) {
@@ -151,20 +150,20 @@ void ListDG::DFS() {
   
   cout << "== DFS:";
   for (int i = 0; i < _vertexNum; i++) {
-    if (!visited[i]) {
+    if (!visited[i]) { // 某个节点未被访问
       DFS(i, visited);
     }
   }
   cout << endl;
   
-//  delete []visited;
+  delete[] visited;
 }
 
 void ListDG::BFS() {
   int head = 0, rear = 0;
   int *queue;
   int *visited;
-  ENode *node;
+  ENode *edge;
   
   queue = new int(_vertexNum);
   visited = new int(_vertexNum);
@@ -173,10 +172,11 @@ void ListDG::BFS() {
     visited[i] = 0;
   }
   
-  cout << "==BFS:";
+  cout << "== BFS:";
   int j, k;
   for (int i = 0; i < _vertexNum; i++) {
-    if (!visited[i]) {
+    
+    if (!visited[i]) { // 未被访问
       visited[i] = 1;
       cout << _vertexs[i].data << " ";
       queue[rear++] = i; // 入队列
@@ -184,31 +184,32 @@ void ListDG::BFS() {
     
     while (head != rear) {
       j = queue[head++]; // 出队列
-      node = _vertexs[j].firstEdge;
+      edge = _vertexs[j].firstEdge;
       
-      while (node != NULL) {
-        k = node->index;
+      while (edge != NULL) {
+        k = edge->index;
         if (!visited[k]) {
           visited[k] = 1;
           cout << _vertexs[k].data << " ";
           queue[rear++] = k;
         }
-        node = node->nextEdge;
+        edge = edge->nextEdge;
       }
     }
   }
-  
   cout << endl;
-//  delete []visited;
-//  delete []queue;
+  
+  delete[] visited;
+  delete[] queue;
 }
 
 void ListDG::print() {
   ENode *node;
   
   cout << "== List Graph:" << endl;
+
   for (int i = 0; i < _vertexNum; i++) {
-    cout << i << "(" << _vertexs[i].data << "):";
+    cout << i << " (" << _vertexs[i].data << "): ";
     node = _vertexs[i].firstEdge;
     while (node != NULL) {
       cout << node->index << "(" << _vertexs[node->index].data << ") ";
@@ -217,8 +218,6 @@ void ListDG::print() {
     cout << endl;
   }
 }
-
-
 
 /**
  拓扑排序
@@ -236,9 +235,6 @@ int ListDG::topologicalOrder() {
   ins = new int(_vertexNum);
   queue = new int(_vertexNum);
   tops = new char(_vertexNum);
-  memset(ins, 0, _vertexNum * sizeof(int));
-  memset(queue, 0, _vertexNum * sizeof(int));
-  memset(tops, 0, _vertexNum * sizeof(char));
   
   // 统计每个顶点的入度
   for (i = 0; i < _vertexNum; i++) {
@@ -277,9 +273,9 @@ int ListDG::topologicalOrder() {
   
   if (index != _vertexNum) {
     cout << "Graph has a cycle" << endl;
-    delete queue;
-    delete ins;
-    delete tops;
+    delete[] queue;
+    delete[] ins;
+    delete[] tops;
     return 1;
   }
   

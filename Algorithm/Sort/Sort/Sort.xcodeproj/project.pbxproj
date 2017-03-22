@@ -60,8 +60,8 @@
 		DBBD32C41E7D7BC9009408F3 /* Sort */ = {
 			isa = PBXGroup;
 			children = (
-				DBBD32CC1E7EC050009408F3 /* TopologicalOrder.cpp */,
 				DBBD32CD1E7EC050009408F3 /* TopologicalOrder.hpp */,
+				DBBD32CC1E7EC050009408F3 /* TopologicalOrder.cpp */,
 				DBBD32C51E7D7BC9009408F3 /* main.cpp */,
 			);
 			path = Sort;
