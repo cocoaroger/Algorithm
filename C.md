@@ -32,3 +32,5 @@ void foo(parm_list,...);
 ```
 
 <a href="http://xinklabi.iteye.com/blog/676313">inline用法总结</a>
+
+测试一下提交 pr
